@@ -2,7 +2,7 @@
 
 Android application which enables the crowd to upload and peer review educational content.
 
-The application communicates with the [webapp](https://github.com/elimu-ai/webapp)'s [REST API](https://github.com/elimu-ai/webapp/tree/master/src/main/java/ai/elimu/rest/v2).
+The application communicates with the [webapp](https://github.com/elimu-ai/webapp)'s [REST API](https://github.com/elimu-ai/webapp/tree/master/src/main/java/ai/elimu/rest/).
 
 ---
 
