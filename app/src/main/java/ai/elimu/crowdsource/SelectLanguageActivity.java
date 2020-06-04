@@ -5,8 +5,6 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ai.elimu.model.enums.Language;
-
 public class SelectLanguageActivity extends AppCompatActivity {
 
     @Override
@@ -22,7 +20,6 @@ public class SelectLanguageActivity extends AppCompatActivity {
         Log.i(getClass().getName(), "onStart");
         super.onStart();
 
-        LanguageListDialogFragment languageListDialogFragment = LanguageListDialogFragment.newInstance(Language.values().length);
-        languageListDialogFragment.show(getSupportFragmentManager(), "dialog");
+        LanguageListDialogFragment.newInstance().show(getSupportFragmentManager(), "dialog");
     }
 }
