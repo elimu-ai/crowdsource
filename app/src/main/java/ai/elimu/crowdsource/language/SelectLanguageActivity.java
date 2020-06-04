@@ -1,9 +1,11 @@
-package ai.elimu.crowdsource;
+package ai.elimu.crowdsource.language;
 
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import ai.elimu.crowdsource.R;
 
 public class SelectLanguageActivity extends AppCompatActivity {
 

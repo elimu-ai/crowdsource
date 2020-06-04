@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ai.elimu.crowdsource.language.SelectLanguageActivity;
 import ai.elimu.model.enums.Language;
 
 public class MainActivity extends AppCompatActivity {

@@ -17,6 +17,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SelectLanguageActivity" />
+        <activity android:name=".language.SelectLanguageActivity" />
     </application>
 </manifest>

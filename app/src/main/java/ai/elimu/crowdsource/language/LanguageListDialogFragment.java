@@ -1,4 +1,4 @@
-package ai.elimu.crowdsource;
+package ai.elimu.crowdsource.language;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import ai.elimu.crowdsource.MainActivity;
+import ai.elimu.crowdsource.R;
 import ai.elimu.model.enums.Language;
 
 /**
