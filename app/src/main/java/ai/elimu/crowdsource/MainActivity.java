@@ -1,17 +1,16 @@
 package ai.elimu.crowdsource;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import ai.elimu.model.enums.Language;
 
 public class MainActivity extends AppCompatActivity {
-
-    private Spinner languageSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +18,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
-        languageSpinner = findViewById(R.id.language_spinner);
     }
 
     @Override
@@ -28,12 +25,22 @@ public class MainActivity extends AppCompatActivity {
         Log.i(getClass().getName(), "onStart");
         super.onStart();
 
-        ArrayAdapter<Language> arrayAdapter = new ArrayAdapter<Language>(
-                this,
-                android.R.layout.simple_spinner_dropdown_item,
-                Language.values()
-        );
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        languageSpinner.setAdapter(arrayAdapter);
+        SharedPreferences sharedPreferences = getSharedPreferences("shared_preferences", MODE_PRIVATE);
+        String languageAsString = sharedPreferences.getString("language", null);
+        Log.i(getClass().getName(), "languageAsString: " + languageAsString);
+        if (TextUtils.isEmpty(languageAsString)) {
+            // Redirect to language selection
+
+            Intent selectLanguageIntent = new Intent(getApplicationContext(), SelectLanguageActivity.class);
+            startActivity(selectLanguageIntent);
+            finish();
+        } else {
+            // Redirect to REST API synchronization
+
+            Language language = Language.valueOf(languageAsString);
+            Log.i(getClass().getName(), "language: " + language);
+
+            // TODO
+        }
     }
 }
