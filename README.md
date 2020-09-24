@@ -1,6 +1,6 @@
 # elimu.ai Crowdsource 🧐
 
-Android application which enables the crowd to upload and peer review educational content.
+Android application which enables the crowd to upload and peer review educational content and ML datasets.
 
 The application communicates with the [webapp](https://github.com/elimu-ai/webapp)'s [REST API](https://github.com/elimu-ai/webapp/tree/master/src/main/java/ai/elimu/rest/).
 
