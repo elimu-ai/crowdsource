@@ -8,8 +8,8 @@ android {
         applicationId "ai.elimu.crowdsource"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 1000000
-        versionName "1.0.0-SNAPSHOT"
+        versionCode 1000001
+        versionName "1.0.1-SNAPSHOT"
         setProperty("archivesBaseName", "${applicationId}-${versionCode}")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
