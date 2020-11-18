@@ -41,22 +41,23 @@ public class SignInWithGoogleActivity extends AppCompatActivity implements View.
 
         signInButton = findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
-
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("...")
-                .requestEmail()
-                .build();
-
-        // Build a GoogleSignInClient with the options specified by GoogleSignInOptions.
-        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
     }
 
     @Override
     protected void onStart() {
         Log.i(getClass().getName(), "onStart");
         super.onStart();
+
+//        // Check for existing Google Sign In account, if the user is already signed in, the GoogleSignInAccount will be non-null.
+//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+//        updateUI(account);
+
+        // Configure sign-in to request the user's ID, email address, and basic profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("...")
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
         signInButton.setOnClickListener(this);
     }
