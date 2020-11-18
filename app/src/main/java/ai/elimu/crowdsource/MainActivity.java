@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ai.elimu.crowdsource.authentication.SignInWithGoogleActivity;
 import ai.elimu.crowdsource.language.SelectLanguageActivity;
 import ai.elimu.model.enums.Language;
 
@@ -27,21 +28,30 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         SharedPreferences sharedPreferences = getSharedPreferences("shared_preferences", MODE_PRIVATE);
+
+        // Check if language has been selected
         String languageAsString = sharedPreferences.getString("language", null);
         Log.i(getClass().getName(), "languageAsString: " + languageAsString);
         if (TextUtils.isEmpty(languageAsString)) {
             // Redirect to language selection
-
             Intent selectLanguageIntent = new Intent(getApplicationContext(), SelectLanguageActivity.class);
             startActivity(selectLanguageIntent);
             finish();
-        } else {
-            // Redirect to REST API synchronization
-
-            Language language = Language.valueOf(languageAsString);
-            Log.i(getClass().getName(), "language: " + language);
-
-            // TODO
         }
+        Language language = Language.valueOf(languageAsString);
+        Log.i(getClass().getName(), "language: " + language);
+
+        // Check for an existing signed-in Contributor
+        String providerIdGoogle = sharedPreferences.getString("provider_id_google", null);
+        Log.i(getClass().getName(), "providerIdGoogle: " + providerIdGoogle);
+        if (TextUtils.isEmpty(providerIdGoogle)) {
+            // Redirect to sign-in with Google
+            Intent signInWithGoogleIntent = new Intent(getApplicationContext(), SignInWithGoogleActivity.class);
+            startActivity(signInWithGoogleIntent);
+            finish();
+        }
+
+        // Redirect to REST API synchronization
+        // TODO
     }
 }
