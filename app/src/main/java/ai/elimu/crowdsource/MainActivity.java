@@ -37,21 +37,19 @@ public class MainActivity extends AppCompatActivity {
             Intent selectLanguageIntent = new Intent(getApplicationContext(), SelectLanguageActivity.class);
             startActivity(selectLanguageIntent);
             finish();
+        } else {
+            // Check for an existing signed-in Contributor
+            String providerIdGoogle = sharedPreferences.getString("provider_id_google", null);
+            Log.i(getClass().getName(), "providerIdGoogle: " + providerIdGoogle);
+            if (TextUtils.isEmpty(providerIdGoogle)) {
+                // Redirect to sign-in with Google
+                Intent signInWithGoogleIntent = new Intent(getApplicationContext(), SignInWithGoogleActivity.class);
+                startActivity(signInWithGoogleIntent);
+                finish();
+            } else {
+                // Redirect to REST API synchronization
+                // TODO
+            }
         }
-        Language language = Language.valueOf(languageAsString);
-        Log.i(getClass().getName(), "language: " + language);
-
-        // Check for an existing signed-in Contributor
-        String providerIdGoogle = sharedPreferences.getString("provider_id_google", null);
-        Log.i(getClass().getName(), "providerIdGoogle: " + providerIdGoogle);
-        if (TextUtils.isEmpty(providerIdGoogle)) {
-            // Redirect to sign-in with Google
-            Intent signInWithGoogleIntent = new Intent(getApplicationContext(), SignInWithGoogleActivity.class);
-            startActivity(signInWithGoogleIntent);
-            finish();
-        }
-
-        // Redirect to REST API synchronization
-        // TODO
     }
 }

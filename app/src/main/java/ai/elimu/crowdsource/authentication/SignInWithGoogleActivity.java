@@ -44,14 +44,8 @@ public class SignInWithGoogleActivity extends AppCompatActivity implements View.
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        String requestIdToken = "108974530651-3g9r40r5s7it6p9vjh2e2eplgmm1to0d.apps.googleusercontent.com"; // "debug"
-        if ("test".equals(BuildConfig.BUILD_TYPE)) {
-            requestIdToken = "...";
-        } else if ("qa_test".equals(BuildConfig.BUILD_TYPE)) {
-            requestIdToken = "...";
-        }
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(requestIdToken)
+                .requestIdToken("...")
                 .requestEmail()
                 .build();
 
