@@ -52,9 +52,9 @@ public class SignInWithGoogleActivity extends AppCompatActivity implements View.
 //        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 //        updateUI(account);
 
-        // Configure sign-in to request the user's ID, email address, and basic profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        // Configure sign-in to request the user's ID, basic profile and e-mail address. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("...")
+                .requestIdToken(BuildConfig.OAUTH_CLIENT_ID)
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);

@@ -18,13 +18,16 @@ android {
         debug {
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
+            buildConfigField("String", "OAUTH_CLIENT_ID", '"108974530651-3g9r40r5s7it6p9vjh2e2eplgmm1to0d.apps.googleusercontent.com"')
         }
         qa_test {
-            initWith debug
             applicationIdSuffix ".test"
             versionNameSuffix "-test"
+            debuggable true
+            buildConfigField("String", "OAUTH_CLIENT_ID", '"108974530651-fskde869tac7imherk2k516shfuvij76.apps.googleusercontent.com"')
         }
         release {
+            buildConfigField("String", "OAUTH_CLIENT_ID", '"108974530651-k68pccps2jb88fllofpcf8ht356v08e4.apps.googleusercontent.com"')
             minifyEnabled false
         }
     }
