@@ -1,6 +1,7 @@
 package ai.elimu.crowdsource;
 
 import android.app.Application;
+import android.util.Log;
 
 import ai.elimu.crowdsource.util.SharedPreferencesHelper;
 import ai.elimu.crowdsource.util.VersionHelper;
@@ -13,8 +14,12 @@ public class BaseApplication extends Application {
 
     @Override
     public void onCreate() {
-        Timber.i("onCreate");
+        Log.i(getClass().getName(), "onCreate");
         super.onCreate();
+
+        // Log config
+        Timber.plant(new Timber.DebugTree());
+        Timber.i("onCreate");
 
         VersionHelper.updateAppVersion(getApplicationContext());
     }

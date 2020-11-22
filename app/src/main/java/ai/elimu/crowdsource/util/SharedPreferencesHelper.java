@@ -13,8 +13,8 @@ public class SharedPreferencesHelper {
 
     public static final String PREF_APP_VERSION_CODE = "pref_app_version_code";
     public static final String PREF_LANGUAGE = "pref_language";
-    public static final String PREF_PROVIDER_ID_GOOGLE = "provider_id_google";
-    public static final String PREF_EMAIL = "provider_id_google";
+    public static final String PREF_PROVIDER_ID_GOOGLE = "pref_provider_id_google";
+    public static final String PREF_EMAIL = "pref_email";
 
     public static void clearAllPreferences(Context context) {
         Timber.w("clearAllPreferences");

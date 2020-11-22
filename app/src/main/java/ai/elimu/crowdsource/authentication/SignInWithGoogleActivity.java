@@ -2,6 +2,7 @@ package ai.elimu.crowdsource.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -18,9 +19,25 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.tasks.Task;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import ai.elimu.crowdsource.BaseApplication;
 import ai.elimu.crowdsource.BuildConfig;
+import ai.elimu.crowdsource.MainActivity;
 import ai.elimu.crowdsource.R;
+import ai.elimu.crowdsource.rest.ContributorService;
 import ai.elimu.crowdsource.util.SharedPreferencesHelper;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import timber.log.Timber;
 
 /**
@@ -114,7 +131,7 @@ public class SignInWithGoogleActivity extends AppCompatActivity implements View.
             Timber.w("e.getStatusCode(): " + e.getStatusCode());
             String statusCodeString = CommonStatusCodes.getStatusCodeString(e.getStatusCode());
             Timber.w("statusCodeString: " + statusCodeString);
-            Toast.makeText(getApplicationContext(), statusCodeString, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Error: \"" + statusCodeString + "\"", Toast.LENGTH_LONG).show();
             updateUI(null);
         }
     }
@@ -124,23 +141,86 @@ public class SignInWithGoogleActivity extends AppCompatActivity implements View.
 
         Timber.i("googleSignInAccount: " + googleSignInAccount);
         if (googleSignInAccount != null) {
+            // Get the details from the Contributor's Google account
+            String providerIdGoogle = googleSignInAccount.getId();
+            String email = googleSignInAccount.getEmail();
+            String firstName = googleSignInAccount.getGivenName();
+            String lastName = googleSignInAccount.getFamilyName();
+            String imageUrl = googleSignInAccount.getPhotoUrl().toString();
+
             // Display the progressbar while connecting to the webapp
             signInButton.setVisibility(View.GONE);
             signInProgressBar.setVisibility(View.VISIBLE);
 
+            // Prepare JSON object to be sent to the webapp's REST API
+            JSONObject contributorJSONObject = new JSONObject();
+            try {
+                contributorJSONObject.put("providerIdGoogle", providerIdGoogle);
+                contributorJSONObject.put("email", email);
+                contributorJSONObject.put("firstName", firstName);
+                contributorJSONObject.put("lastName", lastName);
+                contributorJSONObject.put("imageUrl", imageUrl);
+            } catch (JSONException e) {
+                Timber.e(e);
+            }
+            Timber.i("contributorJSONObject: " + contributorJSONObject);
+
             // Register the Contributor in the webapp's database
-            // TODO
+            BaseApplication baseApplication = (BaseApplication) getApplication();
+            Retrofit retrofit = baseApplication.getRetrofit();
+            ContributorService contributorService = retrofit.create(ContributorService.class);
+            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), contributorJSONObject.toString());
+            Call<ResponseBody> call = contributorService.createContributor(requestBody);
+            Timber.i("call.request(): " + call.request());
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    Timber.i("run");
 
-//                // Store the ID in shared preferences
-//                String providerIdGoogle = googleSignInAccount.getId();
-//                SharedPreferencesHelper.storeProviderIdGoogle(getApplicationContext(), providerIdGoogle);
-//
-//                // Store the e-mail in shared preferences
-//                String email = googleSignInAccount.getEmail();
-//                SharedPreferencesHelper.storeEmail(getApplicationContext(), email);
-//
-//                finish();
+                    try {
+                        Response<ResponseBody> response = call.execute();
+                        Timber.i("response: " + response);
+                        Timber.i("response.isSuccessful(): " + response.isSuccessful());
+                        if (response.isSuccessful()) {
+                            String bodyString = response.body().string();
+                            Timber.i("bodyString: " + bodyString);
 
+                            // Persist the Contributor's Google ID and e-mail in SharedPreferences
+                            SharedPreferencesHelper.storeProviderIdGoogle(getApplicationContext(), providerIdGoogle);
+                            SharedPreferencesHelper.storeEmail(getApplicationContext(), email);
+
+                            // Redirect to the MainActivity
+                            Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(mainActivityIntent);
+                            finish();
+                        } else {
+                            String errorBodyString = response.errorBody().string();
+                            Timber.e("errorBodyString: " + errorBodyString);
+                            // TODO: Handle error
+
+                            runOnUiThread(() -> {
+                                Toast.makeText(getApplicationContext(), "Error " + response.code() + ": \"" + response.message() + "\"", Toast.LENGTH_LONG).show();
+
+                                // Hide the progressbar
+                                signInButton.setVisibility(View.VISIBLE);
+                                signInProgressBar.setVisibility(View.GONE);
+                            });
+                        }
+                    } catch (IOException e) {
+                        Timber.e(e, null);
+                        // TODO: Handle error
+
+                        runOnUiThread(() -> {
+                            Toast.makeText(getApplicationContext(), "Error: " + e.getClass().getSimpleName(), Toast.LENGTH_LONG).show();
+
+                            // Hide the progressbar
+                            signInButton.setVisibility(View.VISIBLE);
+                            signInProgressBar.setVisibility(View.GONE);
+                        });
+                    }
+                }
+            });
         }
     }
 }
