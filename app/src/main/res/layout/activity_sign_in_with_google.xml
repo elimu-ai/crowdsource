@@ -6,22 +6,32 @@
     android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
     android:layout_marginVertical="@dimen/activity_vertical_margin">
 
-    <ImageView
+    <LinearLayout
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/sign_in_button"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/logo_imageview"
-        android:layout_width="320dp"
-        android:layout_height="280dp"
-        android:src="@drawable/ic_elimu" />
-
-    <com.google.android.gms.common.SignInButton
-        app:layout_constraintTop_toTopOf="@id/logo_imageview"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:id="@+id/logo_imageview"
+            android:layout_width="320dp"
+            android:layout_height="280dp"
+            android:src="@drawable/ic_elimu" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ProgressBar
+            android:id="@+id/sign_in_progressbar"
+            android:visibility="gone"
+            android:indeterminate="true"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
