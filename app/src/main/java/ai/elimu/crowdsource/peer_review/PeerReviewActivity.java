@@ -1,4 +1,4 @@
-package ai.elimu.crowdsource.language;
+package ai.elimu.crowdsource.peer_review;
 
 import android.os.Bundle;
 
@@ -7,14 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import ai.elimu.crowdsource.R;
 import timber.log.Timber;
 
-public class SelectLanguageActivity extends AppCompatActivity {
+public class PeerReviewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Timber.i("onCreate");
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_select_language);
+        setContentView(R.layout.activity_peer_review);
     }
 
     @Override
@@ -22,6 +22,6 @@ public class SelectLanguageActivity extends AppCompatActivity {
         Timber.i("onStart");
         super.onStart();
 
-        LanguageListDialogFragment.newInstance().show(getSupportFragmentManager(), "dialog");
+        // TODO
     }
 }
