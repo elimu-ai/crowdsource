@@ -2,12 +2,10 @@ package ai.elimu.crowdsource.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -105,7 +103,7 @@ public class SignInWithGoogleActivity extends AppCompatActivity implements View.
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Timber.i("onActivityResult");
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -186,9 +184,12 @@ public class SignInWithGoogleActivity extends AppCompatActivity implements View.
                             String bodyString = response.body().string();
                             Timber.i("bodyString: " + bodyString);
 
-                            // Persist the Contributor's Google ID and e-mail in SharedPreferences
+                            // Persist the Contributor's account details in SharedPreferences
                             SharedPreferencesHelper.storeProviderIdGoogle(getApplicationContext(), providerIdGoogle);
                             SharedPreferencesHelper.storeEmail(getApplicationContext(), email);
+                            SharedPreferencesHelper.storeFirstName(getApplicationContext(), firstName);
+                            SharedPreferencesHelper.storeLastName(getApplicationContext(), lastName);
+                            SharedPreferencesHelper.storeImageUrl(getApplicationContext(), imageUrl);
 
                             // Redirect to the MainActivity
                             Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);

@@ -15,6 +15,9 @@ public class SharedPreferencesHelper {
     public static final String PREF_LANGUAGE = "pref_language";
     public static final String PREF_PROVIDER_ID_GOOGLE = "pref_provider_id_google";
     public static final String PREF_EMAIL = "pref_email";
+    public static final String PREF_FIRSTNAME = "pref_firstname";
+    public static final String PREF_LASTNAME = "pref_lastname";
+    public static final String PREF_IMAGE_URL = "pref_image_url";
 
     public static void clearAllPreferences(Context context) {
         Timber.w("clearAllPreferences");
@@ -87,6 +90,60 @@ public class SharedPreferencesHelper {
             return null;
         } else {
             return email;
+        }
+    }
+
+
+    public static void storeFirstName(Context context, String firstName) {
+        Timber.i("storeProviderIdGoogle");
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(PREF_FIRSTNAME, firstName).apply();
+    }
+
+    public static String getFirstName(Context context) {
+        Timber.i("getFirstName");
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String firstName = sharedPreferences.getString(PREF_FIRSTNAME, null);
+        if (TextUtils.isEmpty(firstName)) {
+            return null;
+        } else {
+            return firstName;
+        }
+    }
+
+
+    public static void storeLastName(Context context, String lastName) {
+        Timber.i("storeProviderIdGoogle");
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(PREF_LASTNAME, lastName).apply();
+    }
+
+    public static String getLastName(Context context) {
+        Timber.i("getLastName");
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String lastName = sharedPreferences.getString(PREF_LASTNAME, null);
+        if (TextUtils.isEmpty(lastName)) {
+            return null;
+        } else {
+            return lastName;
+        }
+    }
+
+
+    public static void storeImageUrl(Context context, String imageUrl) {
+        Timber.i("storeProviderIdGoogle");
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(PREF_IMAGE_URL, imageUrl).apply();
+    }
+
+    public static String getImageUrl(Context context) {
+        Timber.i("getImageUrl");
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String imageUrl = sharedPreferences.getString(PREF_IMAGE_URL, null);
+        if (TextUtils.isEmpty(imageUrl)) {
+            return null;
+        } else {
+            return imageUrl;
         }
     }
 }
