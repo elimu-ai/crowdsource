@@ -46,7 +46,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // https://github.com/elimu-ai/model
-    implementation 'ai.elimu:model:2.0.24'
+    implementation 'ai.elimu:model:2.0.27'
 
     // AndroidX
     implementation 'androidx.appcompat:appcompat:1.2.0'
