@@ -2,6 +2,8 @@
 
 Android application which enables the crowd to upload and peer review educational content and ML datasets.
 
+![device-2020-12-16-185328](https://user-images.githubusercontent.com/15718174/102387754-721eb400-3fd9-11eb-8823-b5beb44bf654.png) ![device-2020-12-16-185349](https://user-images.githubusercontent.com/15718174/102387759-72b74a80-3fd9-11eb-9b9d-8b5b3f201c11.png)
+
 The application communicates with the [webapp](https://github.com/elimu-ai/webapp)'s [REST API](https://github.com/elimu-ai/webapp/tree/master/src/main/java/ai/elimu/rest/).
 
 ---
