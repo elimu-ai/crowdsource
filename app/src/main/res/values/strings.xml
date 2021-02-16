@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">elimu.ai Crowdsource</string>
+    <string name="contribute_audio_recordings">Contribute Audio Recordings</string>
 </resources>

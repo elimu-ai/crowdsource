@@ -25,6 +25,12 @@
 
         <activity android:name=".authentication.SignInWithGoogleActivity" />
 
+        <activity android:name=".TaskSelectionActivity" />
+
+        <activity android:name=".contribution.ContributeAudioActivity"
+            android:parentActivityName=".TaskSelectionActivity"
+            android:label="@string/contribute_audio_recordings" />
+
         <activity android:name=".peer_review.PeerReviewActivity" />
     </application>
 </manifest>

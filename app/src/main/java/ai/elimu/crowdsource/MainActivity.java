@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ai.elimu.crowdsource.authentication.SignInWithGoogleActivity;
+import ai.elimu.crowdsource.contribution.ContributeAudioActivity;
 import ai.elimu.crowdsource.language.SelectLanguageActivity;
 import ai.elimu.crowdsource.peer_review.PeerReviewActivity;
 import ai.elimu.crowdsource.util.SharedPreferencesHelper;
@@ -46,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(signInWithGoogleIntent);
                 finish();
             } else {
-                // Redirect to crowdsourcing activities
-                Intent peerReviewIntent = new Intent(getApplicationContext(), PeerReviewActivity.class);
-                startActivity(peerReviewIntent);
+                // Redirect to crowdsourcing activity selection
+                Intent intent = new Intent(getApplicationContext(), TaskSelectionActivity.class);
+                startActivity(intent);
                 finish();
             }
         }
