@@ -1,4 +1,4 @@
-package ai.elimu.crowdsource.language;
+package ai.elimu.crowdsource.ui.language;
 
 import android.os.Bundle;
 

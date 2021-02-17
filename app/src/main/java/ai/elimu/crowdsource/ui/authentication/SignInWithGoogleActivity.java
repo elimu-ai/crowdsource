@@ -1,4 +1,4 @@
-package ai.elimu.crowdsource.authentication;
+package ai.elimu.crowdsource.ui.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;

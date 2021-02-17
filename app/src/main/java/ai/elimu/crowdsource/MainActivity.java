@@ -6,10 +6,9 @@ import android.text.TextUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ai.elimu.crowdsource.authentication.SignInWithGoogleActivity;
-import ai.elimu.crowdsource.contribution.ContributeAudioActivity;
-import ai.elimu.crowdsource.language.SelectLanguageActivity;
-import ai.elimu.crowdsource.peer_review.PeerReviewActivity;
+import ai.elimu.crowdsource.ui.authentication.SignInWithGoogleActivity;
+import ai.elimu.crowdsource.ui.language.SelectLanguageActivity;
+import ai.elimu.crowdsource.ui.BottomNavigationActivity;
 import ai.elimu.crowdsource.util.SharedPreferencesHelper;
 import ai.elimu.model.enums.Language;
 import timber.log.Timber;
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             } else {
                 // Redirect to crowdsourcing activity selection
-                Intent intent = new Intent(getApplicationContext(), TaskSelectionActivity.class);
+                Intent intent = new Intent(getApplicationContext(), BottomNavigationActivity.class);
                 startActivity(intent);
                 finish();
             }
