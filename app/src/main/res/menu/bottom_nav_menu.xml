@@ -4,7 +4,7 @@
     <item
         android:id="@+id/navigation_add_content"
         android:icon="@drawable/ic_baseline_add"
-        android:title="@string/title_add_content" />
+        android:title="@string/title_contribute" />
 
     <item
         android:id="@+id/navigation_peer_review"

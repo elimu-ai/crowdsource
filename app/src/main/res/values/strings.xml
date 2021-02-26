@@ -2,6 +2,6 @@
     <string name="app_name">elimu.ai Crowdsource</string>
     <string name="contribute_audio_recordings">Contribute Audio Recordings</string>
     <string name="peer_review_audio_recordings">Peer Review Audio Recordings</string>
-    <string name="title_add_content">Add Content</string>
-    <string name="title_peer_review">Peer Review Content</string>
+    <string name="title_contribute">Contribute</string>
+    <string name="title_peer_review">Peer Review</string>
 </resources>
