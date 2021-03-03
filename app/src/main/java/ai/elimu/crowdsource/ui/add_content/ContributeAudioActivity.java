@@ -1,7 +1,6 @@
 package ai.elimu.crowdsource.ui.add_content;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -102,7 +101,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
     }
 
     private void initializeAudioRecording(List<WordGson> wordGsons) {
-        Log.i(getClass().getName(), "initializeAudioRecording");
+        Timber.i("initializeAudioRecording");
 
         // Get the next word in the list
         WordGson wordGson = wordGsons.get(0);
