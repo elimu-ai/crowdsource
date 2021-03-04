@@ -33,6 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="50sp"
+            android:textStyle="bold"
             android:text="cat 🐱" />
 
         <!-- TODO: wordType -->
@@ -45,6 +46,13 @@
             android:textColor="#CCC"
             android:text="/kæt/" />
 
-        <!-- TODO: audio recording button -->
+        <ImageButton
+            android:id="@+id/audio_contribution_record_button"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:src="@drawable/ic_baseline_mic_48"
+            android:background="@drawable/circle"
+            android:elevation="4dp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
