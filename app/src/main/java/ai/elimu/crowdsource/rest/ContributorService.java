@@ -11,6 +11,6 @@ import retrofit2.http.POST;
  */
 public interface ContributorService {
 
-    @POST("crowdsource/contributor")
+    @POST("crowdsource/contributors")
     Call<ResponseBody> createContributor(@Body RequestBody requestBody);
 }
