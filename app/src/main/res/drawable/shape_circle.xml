@@ -5,5 +5,5 @@
             <solid android:color="#FFF" />
         </shape>
     </item>
-    <item android:drawable="@drawable/record_button_selector" />
+    <item android:drawable="@drawable/selector_record_button" />
 </layer-list>

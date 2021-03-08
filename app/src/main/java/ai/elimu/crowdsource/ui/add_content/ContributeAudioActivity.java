@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -53,7 +54,9 @@ public class ContributeAudioActivity extends AppCompatActivity {
     private TextView wordAllophonesTextView;
     private ImageButton recordAudioImageButton;
     private ImageButton stopAudioImageButton;
+    private LinearLayout playButtonContainer;
     private ImageButton playAudioImageButton;
+    private TextView durationTextView;
 
     private boolean isRecording;
 
@@ -71,7 +74,9 @@ public class ContributeAudioActivity extends AppCompatActivity {
         wordAllophonesTextView = findViewById(R.id.audio_contribution_word_allophones);
         recordAudioImageButton = findViewById(R.id.audio_contribution_record_button);
         stopAudioImageButton = findViewById(R.id.audio_contribution_stop_button);
+        playButtonContainer = findViewById(R.id.audio_contribution_play_button_container);
         playAudioImageButton = findViewById(R.id.audio_contribution_play_button);
+        durationTextView = findViewById(R.id.audio_contribution_duration_text_view);
     }
 
     @Override
@@ -209,12 +214,37 @@ public class ContributeAudioActivity extends AppCompatActivity {
 
                             isRecording = false;
 
-                            // Play the recorded audio so that the contributor can verify it before uploading
+                            // Display a "play" button, and the duration of the recording
                             stopAudioImageButton.setVisibility(View.GONE);
-                            playAudioImageButton.setVisibility(View.VISIBLE);
-                            Timber.i("audioFile: " + audioFile);
-                            Timber.i("audioFile.exists(): " + audioFile.exists());
-                            MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.fromFile(audioFile));
+                            playButtonContainer.setVisibility(View.VISIBLE);
+                            Uri audioFileUri = Uri.fromFile(audioFile);
+                            Timber.i("audioFileUri: " + audioFileUri);
+
+                            // Display the duration of the recording (e.g. "02:500")
+                            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+                            mediaMetadataRetriever.setDataSource(getApplicationContext(), audioFileUri);
+                            String durationMillisecondsAsString = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                            Timber.i("durationMillisecondsAsString: " + durationMillisecondsAsString);
+                            int durationMilliseconds = Integer.valueOf(durationMillisecondsAsString);
+                            int seconds = durationMilliseconds / 1000;
+                            int milliseconds = durationMilliseconds % 1000;
+                            String duration = "";
+                            if (seconds < 10) {
+                                duration += "0";
+                            }
+                            duration += seconds;
+                            duration += ":";
+                            if (milliseconds < 100) {
+                                duration += "0";
+                            }
+                            if (milliseconds < 10) {
+                                duration += "0";
+                            }
+                            duration += milliseconds;
+                            durationTextView.setText(duration);
+
+                            // Play the recorded audio so that the contributor can verify it before uploading
+                            MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), audioFileUri);
                             mediaPlayer.start();
                             playAudioImageButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
