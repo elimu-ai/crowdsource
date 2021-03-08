@@ -17,7 +17,7 @@
         style="?android:attr/progressBarStyleLarge"/>
 
     <LinearLayout
-        android:visibility="gone"
+
         android:id="@+id/audio_contribution_recording_container"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,5 +54,31 @@
             android:src="@drawable/ic_baseline_mic_48"
             android:background="@drawable/circle"
             android:elevation="4dp" />
+        <ImageButton
+            android:visibility="gone"
+            android:id="@+id/audio_contribution_stop_button"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:src="@drawable/ic_round_stop_48"
+            android:background="@drawable/circle"
+            android:elevation="4dp" />
+        <LinearLayout
+
+            android:id="@+id/audio_contribution_play_button_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="32dp"
+            android:backgroundTint="@color/colorAccent">
+
+            <ImageButton
+                android:id="@+id/audio_contribution_play_button"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:src="@drawable/ic_baseline_play_arrow_24"
+                android:background="@drawable/circle"
+                android:elevation="4dp" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

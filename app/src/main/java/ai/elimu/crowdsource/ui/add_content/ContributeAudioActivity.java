@@ -1,15 +1,21 @@
 package ai.elimu.crowdsource.ui.add_content;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.media.AudioFormat;
+import android.media.AudioRecord;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -17,6 +23,8 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -44,6 +52,10 @@ public class ContributeAudioActivity extends AppCompatActivity {
     private TextView wordLettersTextView;
     private TextView wordAllophonesTextView;
     private ImageButton recordAudioImageButton;
+    private ImageButton stopAudioImageButton;
+    private ImageButton playAudioImageButton;
+
+    private boolean isRecording;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +70,18 @@ public class ContributeAudioActivity extends AppCompatActivity {
         wordLettersTextView = findViewById(R.id.audio_contribution_word_letters);
         wordAllophonesTextView = findViewById(R.id.audio_contribution_word_allophones);
         recordAudioImageButton = findViewById(R.id.audio_contribution_record_button);
+        stopAudioImageButton = findViewById(R.id.audio_contribution_stop_button);
+        playAudioImageButton = findViewById(R.id.audio_contribution_play_button);
     }
 
     @Override
     protected void onStart() {
         Timber.i("onStart");
         super.onStart();
+
+        // Reset UI state
+        progressBar.setVisibility(View.VISIBLE);
+        recordingContainerLinearLayout.setVisibility(View.GONE);
 
         // Download a list of words that the contributor has not yet recorded
         BaseApplication baseApplication = (BaseApplication) getApplication();
@@ -140,7 +158,74 @@ public class ContributeAudioActivity extends AppCompatActivity {
                     // Request permission to access the microphone
                     ActivityCompat.requestPermissions(ContributeAudioActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_CODE_RECORD_AUDIO);
                 } else {
+                    // Replace "mic" icon with "stop" icon
+                    recordAudioImageButton.setImageResource(R.drawable.ic_round_stop_48);
+
+                    // Display timer
                     // TODO
+
+                    // Record audio from the microphone, and write the recording to a file
+
+                    File audioFile = new File(getApplicationContext().getFilesDir(), "word_" + wordGson.getId() + ".3gp");
+                    Timber.i("audioFile: " + audioFile);
+
+                    MediaRecorder mediaRecorder = new MediaRecorder();
+                    mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                    mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                    mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                    mediaRecorder.setOutputFile(audioFile.getPath());
+                    try {
+                        mediaRecorder.prepare();
+                    } catch (IOException e) {
+                        Timber.e(e);
+                    }
+                    mediaRecorder.start();
+
+                    isRecording = true;
+
+                    Thread recordingThread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Timber.i("recordingThread run");
+
+                            while (isRecording) {
+                                Timber.i("mediaRecorder.getMaxAmplitude(): " + mediaRecorder.getMaxAmplitude());
+
+                                // Indicate contributor's speech volume using pulsating animations
+
+                            }
+                        }
+                    });
+                    recordingThread.start();
+
+                    recordAudioImageButton.setVisibility(View.GONE);
+                    stopAudioImageButton.setVisibility(View.VISIBLE);
+                    stopAudioImageButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Timber.i("stopAudioImageButton onClick");
+
+                            mediaRecorder.stop();
+
+                            isRecording = false;
+
+                            // Play the recorded audio so that the contributor can verify it before uploading
+                            stopAudioImageButton.setVisibility(View.GONE);
+                            playAudioImageButton.setVisibility(View.VISIBLE);
+                            Timber.i("audioFile: " + audioFile);
+                            Timber.i("audioFile.exists(): " + audioFile.exists());
+                            MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.fromFile(audioFile));
+                            mediaPlayer.start();
+                            playAudioImageButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Timber.i("playAudioImageButton onClick");
+
+                                    mediaPlayer.start();
+                                }
+                            });
+                        }
+                    });
                 }
             }
         });
