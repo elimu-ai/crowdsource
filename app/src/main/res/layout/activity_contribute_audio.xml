@@ -69,23 +69,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:background="@drawable/shape_rectangle">
+            android:background="@drawable/shape_rectangle"
+            android:clipToPadding="false">
 
             <ImageButton
                 android:id="@+id/audio_contribution_play_button"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:src="@drawable/ic_baseline_play_arrow_24"
-                android:background="@drawable/shape_circle"
-                android:elevation="4dp" />
+                android:src="@drawable/ic_baseline_play_arrow_48"
+                android:background="@drawable/shape_circle" />
 
             <TextView
                 android:id="@+id/audio_contribution_duration_text_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_gravity="center"
-                android:text="00:000"
+                android:textColor="@android:color/darker_gray"
+                android:text="00:00.000"
                 android:textSize="40sp" />
         </LinearLayout>
     </LinearLayout>

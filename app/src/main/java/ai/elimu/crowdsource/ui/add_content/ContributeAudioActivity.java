@@ -220,7 +220,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
                             Uri audioFileUri = Uri.fromFile(audioFile);
                             Timber.i("audioFileUri: " + audioFileUri);
 
-                            // Display the duration of the recording (e.g. "02:500")
+                            // Display the duration of the recording (e.g. "00:02.500")
                             MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
                             mediaMetadataRetriever.setDataSource(getApplicationContext(), audioFileUri);
                             String durationMillisecondsAsString = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
@@ -228,12 +228,12 @@ public class ContributeAudioActivity extends AppCompatActivity {
                             int durationMilliseconds = Integer.valueOf(durationMillisecondsAsString);
                             int seconds = durationMilliseconds / 1000;
                             int milliseconds = durationMilliseconds % 1000;
-                            String duration = "";
+                            String duration = "00:";
                             if (seconds < 10) {
                                 duration += "0";
                             }
                             duration += seconds;
-                            duration += ":";
+                            duration += ".";
                             if (milliseconds < 100) {
                                 duration += "0";
                             }
@@ -250,7 +250,6 @@ public class ContributeAudioActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     Timber.i("playAudioImageButton onClick");
-
                                     mediaPlayer.start();
                                 }
                             });
