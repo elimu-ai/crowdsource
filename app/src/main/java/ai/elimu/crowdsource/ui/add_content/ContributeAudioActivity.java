@@ -200,7 +200,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
                                 Timber.i("mediaRecorder.getMaxAmplitude(): " + mediaRecorder.getMaxAmplitude());
 
                                 // Indicate contributor's speech volume using pulsating animations
-
+                                // TODO
                             }
                         }
                     });

@@ -86,7 +86,7 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:textColor="@android:color/darker_gray"
                 android:text="00:00.000"
-                android:textSize="40sp" />
+                android:textSize="32sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -106,8 +106,7 @@
             android:layout_height="match_parent"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:drawableLeft="@drawable/ic_baseline_refresh_24"
-            android:text="Retry"
-            android:textSize="24sp" />
+            android:text="Retry" />
 
         <Button
             android:id="@+id/audio_contribution_upload_button"
@@ -118,7 +117,6 @@
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Colored"
             android:drawableLeft="@drawable/ic_baseline_file_upload_24"
-            android:text="Upload"
-            android:textSize="24sp" />
+            android:text="Upload" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
