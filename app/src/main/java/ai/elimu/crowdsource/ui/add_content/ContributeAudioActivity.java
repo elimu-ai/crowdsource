@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -57,6 +58,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
     private LinearLayout playButtonContainer;
     private ImageButton playAudioImageButton;
     private TextView durationTextView;
+    private ConstraintLayout uploadButtonContainer;
 
     private boolean isRecording;
 
@@ -77,6 +79,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
         playButtonContainer = findViewById(R.id.audio_contribution_play_button_container);
         playAudioImageButton = findViewById(R.id.audio_contribution_play_button);
         durationTextView = findViewById(R.id.audio_contribution_duration_text_view);
+        uploadButtonContainer = findViewById(R.id.audio_contribution_upload_button_container);
     }
 
     @Override
@@ -245,12 +248,22 @@ public class ContributeAudioActivity extends AppCompatActivity {
 
                             // Play the recorded audio so that the contributor can verify it before uploading
                             MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), audioFileUri);
+                            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                @Override
+                                public void onCompletion(MediaPlayer mp) {
+                                    Timber.i("mediaPlayer onCompletion");
+                                    uploadButtonContainer.setVisibility(View.VISIBLE);
+                                    playAudioImageButton.setImageResource(R.drawable.ic_baseline_play_arrow_48);
+                                }
+                            });
                             mediaPlayer.start();
+                            playAudioImageButton.setImageResource(R.drawable.ic_baseline_pause_48);
                             playAudioImageButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     Timber.i("playAudioImageButton onClick");
                                     mediaPlayer.start();
+                                    playAudioImageButton.setImageResource(R.drawable.ic_baseline_pause_48);
                                 }
                             });
                         }
