@@ -4,4 +4,6 @@
     <string name="peer_review_audio_recordings">Peer Review Audio Recordings</string>
     <string name="title_contribute">Contribute</string>
     <string name="title_peer_review">Peer Review</string>
+    <string name="retry">Retry</string>
+    <string name="upload">Upload</string>
 </resources>

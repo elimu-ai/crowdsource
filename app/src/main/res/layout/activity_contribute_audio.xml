@@ -61,7 +61,8 @@
             android:layout_height="128dp"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:src="@drawable/ic_round_stop_48"
-            android:background="@drawable/shape_circle"
+            android:tint="#FFF"
+            android:background="@drawable/shape_circle_color_primary"
             android:elevation="4dp" />
         <LinearLayout
             android:visibility="gone"
@@ -106,7 +107,7 @@
             android:layout_height="match_parent"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:drawableLeft="@drawable/ic_baseline_refresh_24"
-            android:text="Retry" />
+            android:text="@string/retry" />
 
         <Button
             android:id="@+id/audio_contribution_upload_button"
@@ -117,6 +118,6 @@
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Colored"
             android:drawableLeft="@drawable/ic_baseline_file_upload_24"
-            android:text="Upload" />
+            android:text="@string/upload" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
