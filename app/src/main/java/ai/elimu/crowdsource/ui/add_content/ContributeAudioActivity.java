@@ -56,6 +56,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
     private TextView durationTextView;
 
     private Button uploadButton;
+    private ProgressBar uploadProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
         durationTextView = findViewById(R.id.audio_contribution_duration_text_view);
 
         uploadButton = findViewById(R.id.audio_contribution_upload_button);
+        uploadProgressBar = findViewById(R.id.audio_contribution_upload_progress_bar);
     }
 
     @Override
@@ -90,6 +92,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
         stopAudioImageButton.setVisibility(View.GONE);
         playButtonContainer.setVisibility(View.GONE);
         uploadButton.setVisibility(View.GONE);
+        uploadProgressBar.setVisibility(View.GONE);
 
         // Download a list of words that the contributor has not yet recorded
         BaseApplication baseApplication = (BaseApplication) getApplication();
@@ -171,13 +174,13 @@ public class ContributeAudioActivity extends AppCompatActivity {
 
                     // Record audio from the microphone, and write the recording to a file
 
-                    File audioFile = new File(getApplicationContext().getFilesDir(), "word_" + wordGson.getId() + ".3gp");
+                    File audioFile = new File(getApplicationContext().getFilesDir(), "word_" + wordGson.getId() + ".mp3");
                     Timber.i("audioFile: " + audioFile);
 
                     MediaRecorder mediaRecorder = new MediaRecorder();
                     mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                    mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-                    mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                    mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                    mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
                     mediaRecorder.setOutputFile(audioFile.getPath());
                     try {
                         mediaRecorder.prepare();
@@ -257,7 +260,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
                                         public void onClick(View v) {
                                             Timber.i("uploadButton onClick");
 
-                                            // TODO
+                                            uploadRecording();
                                         }
                                     });
                                     uploadButton.setVisibility(View.VISIBLE);
@@ -281,6 +284,15 @@ public class ContributeAudioActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.GONE);
         recordingContainerLinearLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void uploadRecording() {
+        Timber.i("uploadRecording");
+
+        uploadButton.setVisibility(View.GONE);
+        uploadProgressBar.setVisibility(View.VISIBLE);
+
+        // TODO
     }
 
     @Override

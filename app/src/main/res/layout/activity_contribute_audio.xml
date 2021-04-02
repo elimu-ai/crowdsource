@@ -103,4 +103,13 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:drawableLeft="@drawable/ic_baseline_file_upload_24"
         android:text="@string/upload" />
+    <ProgressBar
+        android:id="@+id/audio_contribution_upload_progress_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminate="true" />
 </androidx.constraintlayout.widget.ConstraintLayout>
