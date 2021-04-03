@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -33,6 +34,10 @@ import ai.elimu.model.v2.gson.content.AllophoneGson;
 import ai.elimu.model.v2.gson.content.LetterGson;
 import ai.elimu.model.v2.gson.content.LetterToAllophoneMappingGson;
 import ai.elimu.model.v2.gson.content.WordGson;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -131,10 +136,8 @@ public class ContributeAudioActivity extends AppCompatActivity {
             public void onFailure(Call<List<WordGson>> call, Throwable t) {
                 Timber.e(t, "onFailure");
 
-                Timber.e("t.getCause(): " + t.getCause());
-
                 // Handle error
-                Snackbar.make(progressBar, t.getCause().toString(), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(progressBar, t.getMessage(), Snackbar.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -260,7 +263,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
                                         public void onClick(View v) {
                                             Timber.i("uploadButton onClick");
 
-                                            uploadRecording();
+                                            uploadRecording(audioFile);
                                         }
                                     });
                                     uploadButton.setVisibility(View.VISIBLE);
@@ -286,13 +289,59 @@ public class ContributeAudioActivity extends AppCompatActivity {
         recordingContainerLinearLayout.setVisibility(View.VISIBLE);
     }
 
-    private void uploadRecording() {
+    private void uploadRecording(File audioFile) {
         Timber.i("uploadRecording");
+
+        Timber.i("audioFile.getPath(): " + audioFile.getPath());
 
         uploadButton.setVisibility(View.GONE);
         uploadProgressBar.setVisibility(View.VISIBLE);
 
-        // TODO
+        // Upload MP3 file to the server
+        BaseApplication baseApplication = (BaseApplication) getApplication();
+        Retrofit retrofit = baseApplication.getRetrofit();
+        AudioContributionsService audioContributionsService = retrofit.create(AudioContributionsService.class);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), audioFile);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("file", audioFile.getName(), requestBody);
+        Call<ResponseBody> call = audioContributionsService.uploadMp3File(part);
+        Timber.i("call.request(): " + call.request());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Timber.i("onResponse");
+
+                Timber.i("response: " + response);
+                Timber.i("response.isSuccessful(): " + response.isSuccessful());
+                try {
+                    if (response.isSuccessful()) {
+                        String bodyString = response.body().string();
+                        Timber.i("bodyString: " + bodyString);
+
+                        // Load the next word in the list
+                        onStart();
+                    } else {
+                        String errorBodyString = response.errorBody().string();
+                        Timber.e("errorBodyString: " + errorBodyString);
+                        Snackbar.make(uploadButton, "Upload failed: " + response.code() + " " + response.message(), Snackbar.LENGTH_LONG).show();
+                        uploadProgressBar.setVisibility(View.GONE);
+                        uploadButton.setVisibility(View.VISIBLE);
+                    }
+                } catch (IOException e) {
+                    Timber.e(e);
+                    Snackbar.make(uploadButton, "An error occurred: " + e.getMessage(), Snackbar.LENGTH_LONG).show();
+                    uploadProgressBar.setVisibility(View.GONE);
+                    uploadButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Timber.e(t, "onFailure");
+                Snackbar.make(uploadButton, "An error occurred: " + t.getMessage(), Snackbar.LENGTH_LONG).show();
+                uploadProgressBar.setVisibility(View.GONE);
+                uploadButton.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
