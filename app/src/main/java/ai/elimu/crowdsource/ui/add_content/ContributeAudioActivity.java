@@ -304,7 +304,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
         BaseApplication baseApplication = (BaseApplication) getApplication();
         Retrofit retrofit = baseApplication.getRetrofit();
         AudioContributionsService audioContributionsService = retrofit.create(AudioContributionsService.class);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), audioFile);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("audio/mpeg"), audioFile);
         MultipartBody.Part part = MultipartBody.Part.createFormData("file", audioFile.getName(), requestBody);
         String providerIdGoogle = SharedPreferencesHelper.getProviderIdGoogle(getApplicationContext());
         Long timeSpentMs = System.currentTimeMillis() - timeStart;
