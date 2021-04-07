@@ -17,10 +17,10 @@ import retrofit2.http.Part;
  */
 public interface AudioContributionsService {
 
-    @GET("crowdsource/audio-contributions")
-    Call<List<WordGson>> listWordsPendingAudioContribution(@Header("providerIdGoogle") String providerIdGoogle);
+    @GET("crowdsource/audio-contributions/words")
+    Call<List<WordGson>> listWordsPendingRecording(@Header("providerIdGoogle") String providerIdGoogle);
 
     @Multipart
-    @POST("crowdsource/audio-contributions/mp3")
-    Call<ResponseBody> uploadMp3File(@Part MultipartBody.Part part);
+    @POST("crowdsource/audio-contributions/words")
+    Call<ResponseBody> uploadWordRecording(@Header("providerIdGoogle") String providerIdGoogle, @Header("timeSpentMs") Long timeSpentMs, @Part MultipartBody.Part part);
 }

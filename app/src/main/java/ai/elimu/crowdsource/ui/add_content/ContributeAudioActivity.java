@@ -7,7 +7,6 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -63,6 +62,8 @@ public class ContributeAudioActivity extends AppCompatActivity {
     private Button uploadButton;
     private ProgressBar uploadProgressBar;
 
+    private long timeStart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Timber.i("onCreate");
@@ -99,12 +100,14 @@ public class ContributeAudioActivity extends AppCompatActivity {
         uploadButton.setVisibility(View.GONE);
         uploadProgressBar.setVisibility(View.GONE);
 
+        timeStart = System.currentTimeMillis();
+
         // Download a list of words that the contributor has not yet recorded
         BaseApplication baseApplication = (BaseApplication) getApplication();
         Retrofit retrofit = baseApplication.getRetrofit();
         AudioContributionsService audioContributionsService = retrofit.create(AudioContributionsService.class);
         String providerIdGoogle = SharedPreferencesHelper.getProviderIdGoogle(getApplicationContext());
-        Call<List<WordGson>> call = audioContributionsService.listWordsPendingAudioContribution(providerIdGoogle);
+        Call<List<WordGson>> call = audioContributionsService.listWordsPendingRecording(providerIdGoogle);
         Timber.i("call.request(): " + call.request());
         call.enqueue(new Callback<List<WordGson>>() {
             @Override
@@ -183,7 +186,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
                     MediaRecorder mediaRecorder = new MediaRecorder();
                     mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                     mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-                    mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+                    mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
                     mediaRecorder.setOutputFile(audioFile.getPath());
                     try {
                         mediaRecorder.prepare();
@@ -303,7 +306,9 @@ public class ContributeAudioActivity extends AppCompatActivity {
         AudioContributionsService audioContributionsService = retrofit.create(AudioContributionsService.class);
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), audioFile);
         MultipartBody.Part part = MultipartBody.Part.createFormData("file", audioFile.getName(), requestBody);
-        Call<ResponseBody> call = audioContributionsService.uploadMp3File(part);
+        String providerIdGoogle = SharedPreferencesHelper.getProviderIdGoogle(getApplicationContext());
+        Long timeSpentMs = System.currentTimeMillis() - timeStart;
+        Call<ResponseBody> call = audioContributionsService.uploadWordRecording(providerIdGoogle, timeSpentMs, part);
         Timber.i("call.request(): " + call.request());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
