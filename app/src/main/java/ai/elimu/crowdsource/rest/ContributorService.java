@@ -6,8 +6,11 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
+/**
+ * REST API: https://github.com/elimu-ai/webapp/blob/master/src/main/java/ai/elimu/rest/v2/crowdsource/ContributorsRestController.java
+ */
 public interface ContributorService {
 
-    @POST("crowdsource/contributor")
+    @POST("crowdsource/contributors")
     Call<ResponseBody> createContributor(@Body RequestBody requestBody);
 }

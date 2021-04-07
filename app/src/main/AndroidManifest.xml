@@ -3,6 +3,7 @@
     package="ai.elimu.crowdsource">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".BaseApplication"
@@ -21,10 +22,18 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".language.SelectLanguageActivity" />
+        <activity android:name=".ui.language.SelectLanguageActivity" />
 
-        <activity android:name=".authentication.SignInWithGoogleActivity" />
+        <activity android:name=".ui.authentication.SignInWithGoogleActivity" />
 
-        <activity android:name=".peer_review.PeerReviewActivity" />
+        <activity android:name=".ui.BottomNavigationActivity" />
+
+        <activity android:name=".ui.add_content.ContributeAudioActivity"
+            android:parentActivityName=".ui.BottomNavigationActivity"
+            android:label="@string/contribute_audio_recordings" />
+
+        <activity android:name=".ui.peer_review.PeerReviewAudioActivity"
+            android:parentActivityName=".ui.BottomNavigationActivity"
+            android:label="@string/peer_review_audio_recordings" />
     </application>
 </manifest>

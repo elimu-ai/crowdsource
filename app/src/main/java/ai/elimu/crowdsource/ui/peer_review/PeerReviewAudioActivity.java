@@ -1,4 +1,4 @@
-package ai.elimu.crowdsource.peer_review;
+package ai.elimu.crowdsource.ui.peer_review;
 
 import android.os.Bundle;
 
@@ -7,14 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import ai.elimu.crowdsource.R;
 import timber.log.Timber;
 
-public class PeerReviewActivity extends AppCompatActivity {
+public class PeerReviewAudioActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Timber.i("onCreate");
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_peer_review);
+        setContentView(R.layout.activity_peer_review_audio);
     }
 
     @Override

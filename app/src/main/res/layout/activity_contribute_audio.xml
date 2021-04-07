@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+    android:layout_marginVertical="@dimen/activity_vertical_margin">
+
+    <ProgressBar
+        android:id="@+id/audio_contribution_progress_bar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        style="?android:attr/progressBarStyleLarge"/>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/audio_contribution_recording_container"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/audio_contribution_word_letters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:text="cat 🐱" />
+
+        <!-- TODO: wordType -->
+
+        <TextView
+            android:id="@+id/audio_contribution_word_allophones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:textColor="#CCC"
+            android:text="/kæt/" />
+
+        <ImageButton
+            android:id="@+id/audio_contribution_record_button"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:src="@drawable/ic_baseline_mic_48"
+            android:background="@drawable/shape_circle"
+            android:elevation="4dp" />
+        <ImageButton
+            android:visibility="gone"
+            android:id="@+id/audio_contribution_stop_button"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:src="@drawable/ic_round_stop_48"
+            android:tint="#FFF"
+            android:background="@drawable/shape_circle_color_primary"
+            android:elevation="4dp" />
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/audio_contribution_play_button_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@drawable/shape_rectangle"
+            android:clipToPadding="false">
+
+            <ImageButton
+                android:id="@+id/audio_contribution_play_button"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_baseline_play_arrow_48"
+                android:background="@drawable/shape_circle" />
+
+            <TextView
+                android:id="@+id/audio_contribution_duration_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:textColor="@android:color/darker_gray"
+                android:text="00:00.000"
+                android:textSize="32sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/audio_contribution_upload_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:drawableLeft="@drawable/ic_baseline_file_upload_24"
+        android:text="@string/upload" />
+    <ProgressBar
+        android:id="@+id/audio_contribution_upload_progress_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminate="true" />
+</androidx.constraintlayout.widget.ConstraintLayout>
