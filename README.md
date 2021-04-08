@@ -6,6 +6,8 @@ Android application which enables the crowd to upload and peer review educationa
 
 The application communicates with the [webapp](https://github.com/elimu-ai/webapp)'s [REST API](https://github.com/elimu-ai/webapp/tree/master/src/main/java/ai/elimu/rest/).
 
+<a href='https://play.google.com/store/apps/details?id=ai.elimu.crowdsource'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
+
 ---
 
 ## About the elimu.ai Community
