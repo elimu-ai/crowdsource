@@ -128,7 +128,6 @@ public class ContributeAudioActivity extends AppCompatActivity {
                 } else {
                     List<WordGson> wordGsons = response.body();
                     Timber.i("wordGsons.size(): " + wordGsons.size());
-
                     if (wordGsons.size() > 0) {
                         initializeAudioRecording(wordGsons);
                     }

@@ -65,7 +65,11 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
                     Snackbar.make(progressBar, response.code() + ": " + response.message(), Snackbar.LENGTH_LONG).show();
                     progressBar.setVisibility(View.GONE);
                 } else {
-                    // TODO
+                    List<AudioContributionEventGson> audioContributionEventGsons = response.body();
+                    Timber.i("audioContributionEventGsons.size(): " + audioContributionEventGsons.size());
+                    if (audioContributionEventGsons.size() > 0) {
+                        // TODO
+                    }
                 }
             }
 
