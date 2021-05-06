@@ -15,4 +15,25 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         style="?android:attr/progressBarStyleLarge" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/audio_peer_review_container"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/audio_peer_review_word_letters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:text="cat 🐱" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

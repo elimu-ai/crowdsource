@@ -148,7 +148,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
     private void initializeAudioRecording(List<WordGson> wordGsons) {
         Timber.i("initializeAudioRecording");
 
-        // Get the next word in the list
+        // Get the first word in the list
         WordGson wordGson = wordGsons.get(0);
 
         String wordLetters = "";

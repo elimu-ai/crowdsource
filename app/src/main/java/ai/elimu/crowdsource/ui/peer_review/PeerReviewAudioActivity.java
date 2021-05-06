@@ -2,7 +2,9 @@ package ai.elimu.crowdsource.ui.peer_review;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +28,9 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
 
+    private LinearLayout peerReviewContainerLinearLayout;
+    private TextView wordLettersTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Timber.i("onCreate");
@@ -34,12 +39,18 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_peer_review_audio);
 
         progressBar = findViewById(R.id.audio_peer_review_progress_bar);
+
+        peerReviewContainerLinearLayout = findViewById(R.id.audio_peer_review_container);
+        wordLettersTextView = findViewById(R.id.audio_peer_review_word_letters);
     }
 
     @Override
     protected void onStart() {
         Timber.i("onStart");
         super.onStart();
+
+        // Reset UI state
+        // TODO
 
         // Download a list of word recordings that the contributor has not yet peer reviewed
         BaseApplication baseApplication = (BaseApplication) getApplication();
@@ -68,7 +79,7 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
                     List<AudioContributionEventGson> audioContributionEventGsons = response.body();
                     Timber.i("audioContributionEventGsons.size(): " + audioContributionEventGsons.size());
                     if (audioContributionEventGsons.size() > 0) {
-                        // TODO
+                        initializeAudioRecordingPeerReview(audioContributionEventGsons);
                     }
                 }
             }
@@ -82,5 +93,25 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void initializeAudioRecordingPeerReview(List<AudioContributionEventGson> audioContributionEventGsons) {
+        Timber.i("initializeAudioRecordingPeerReview");
+
+        // Get the first audio recording contribution in the list
+        AudioContributionEventGson audioContributionEventGson = audioContributionEventGsons.get(0);
+
+        // Initialize word text
+        String wordLetters = audioContributionEventGson.getAudio().getTranscription();
+        wordLettersTextView.setText(wordLetters);
+
+        // Initialize play button
+        // TODO
+
+        // Initialize peer review form
+        // TODO
+
+        progressBar.setVisibility(View.GONE);
+        peerReviewContainerLinearLayout.setVisibility(View.VISIBLE);
     }
 }
