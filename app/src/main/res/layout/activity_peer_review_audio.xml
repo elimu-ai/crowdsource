@@ -17,7 +17,7 @@
         style="?android:attr/progressBarStyleLarge" />
 
     <LinearLayout
-        android:visibility="gone"
+
         android:id="@+id/audio_peer_review_container"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,5 +35,12 @@
             android:textSize="50sp"
             android:textStyle="bold"
             android:text="cat 🐱" />
+
+        <ImageButton
+            android:id="@+id/audio_peer_review_play_button"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_baseline_play_arrow_48"
+            android:background="@drawable/shape_circle" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,11 @@
 package ai.elimu.crowdsource.ui.peer_review;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -17,6 +21,7 @@ import ai.elimu.crowdsource.BaseApplication;
 import ai.elimu.crowdsource.R;
 import ai.elimu.crowdsource.rest.AudioPeerReviewsService;
 import ai.elimu.crowdsource.util.SharedPreferencesHelper;
+import ai.elimu.model.v2.gson.content.AudioGson;
 import ai.elimu.model.v2.gson.crowdsource.AudioContributionEventGson;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +35,7 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
 
     private LinearLayout peerReviewContainerLinearLayout;
     private TextView wordLettersTextView;
+    private ImageButton playImageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,7 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
 
         peerReviewContainerLinearLayout = findViewById(R.id.audio_peer_review_container);
         wordLettersTextView = findViewById(R.id.audio_peer_review_word_letters);
+        playImageButton = findViewById(R.id.audio_peer_review_play_button);
     }
 
     @Override
@@ -100,13 +107,29 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
 
         // Get the first audio recording contribution in the list
         AudioContributionEventGson audioContributionEventGson = audioContributionEventGsons.get(0);
+        AudioGson audioGson = audioContributionEventGson.getAudio();
 
         // Initialize word text
-        String wordLetters = audioContributionEventGson.getAudio().getTranscription();
+        String wordLetters = audioGson.getTranscription();
         wordLettersTextView.setText(wordLetters);
 
         // Initialize play button
-        // TODO
+        BaseApplication baseApplication = (BaseApplication) getApplication();
+        String audioBytesUrl = baseApplication.getBaseUrl() + audioGson.getBytesUrl();
+        Timber.i("audioBytesUrl: " + audioBytesUrl);
+        Uri audioUri = Uri.parse(audioBytesUrl);
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(getApplicationContext(), audioUri);
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            Timber.e(e);
+        }
+        playImageButton.setOnClickListener(v -> {
+            mediaPlayer.start();
+        });
+        playImageButton.performClick();
 
         // Initialize peer review form
         // TODO
