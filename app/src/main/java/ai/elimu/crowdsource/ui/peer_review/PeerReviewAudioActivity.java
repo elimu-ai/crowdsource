@@ -169,7 +169,7 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
                 AudioPeerReviewEventGson audioPeerReviewEventGson = new AudioPeerReviewEventGson();
                 audioPeerReviewEventGson.setAudioContributionEvent(audioContributionEventGson);
                 audioPeerReviewEventGson.setApproved(true);
-                audioContributionEventGson.setTime(Calendar.getInstance());
+                audioPeerReviewEventGson.setTime(Calendar.getInstance());
 
                 uploadPeerReview(audioPeerReviewEventGson);
             });
@@ -181,7 +181,7 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
                 AudioPeerReviewEventGson audioPeerReviewEventGson = new AudioPeerReviewEventGson();
                 audioPeerReviewEventGson.setAudioContributionEvent(audioContributionEventGson);
                 audioPeerReviewEventGson.setApproved(false);
-                audioContributionEventGson.setTime(Calendar.getInstance());
+                audioPeerReviewEventGson.setTime(Calendar.getInstance());
 
                 uploadPeerReview(audioPeerReviewEventGson);
             });
