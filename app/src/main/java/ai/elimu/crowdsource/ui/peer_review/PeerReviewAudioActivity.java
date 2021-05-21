@@ -6,9 +6,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -19,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import ai.elimu.crowdsource.BaseApplication;
@@ -27,6 +27,8 @@ import ai.elimu.crowdsource.rest.AudioPeerReviewsService;
 import ai.elimu.crowdsource.util.SharedPreferencesHelper;
 import ai.elimu.model.v2.gson.content.AudioGson;
 import ai.elimu.model.v2.gson.crowdsource.AudioContributionEventGson;
+import ai.elimu.model.v2.gson.crowdsource.AudioPeerReviewEventGson;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,6 +44,9 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
     private ImageButton playImageButton;
 
     private LinearLayout peerReviewFormContainerLinearLayout;
+    private Button peerReviewApprovedYesButton;
+    private Button peerReviewApprovedNoButton;
+    private ProgressBar uploadProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,9 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
         playImageButton = findViewById(R.id.audio_peer_review_play_button);
 
         peerReviewFormContainerLinearLayout = findViewById(R.id.audio_peer_review_form_container);
+        peerReviewApprovedYesButton = findViewById(R.id.audio_peer_review_approved_yes_button);
+        peerReviewApprovedNoButton = findViewById(R.id.audio_peer_review_approved_no_button);
+        uploadProgressBar = findViewById(R.id.audio_peer_review_upload_progress_bar);
     }
 
     @Override
@@ -68,6 +76,7 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         peerReviewContainerLinearLayout.setVisibility(View.GONE);
         peerReviewFormContainerLinearLayout.setVisibility(View.GONE);
+
 
         // Download a list of word recordings that the contributor has not yet peer reviewed
         BaseApplication baseApplication = (BaseApplication) getApplication();
@@ -153,7 +162,84 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
             objectAnimator.setInterpolator(new OvershootInterpolator());
             objectAnimator.start();
 
-//            TODO: handle button clicks
+            // When the "Yes" button is pressed, submit the information to the server
+            peerReviewApprovedYesButton.setOnClickListener(v -> {
+                Timber.i("peerReviewApprovedYesButton onClick");
+
+                AudioPeerReviewEventGson audioPeerReviewEventGson = new AudioPeerReviewEventGson();
+                audioPeerReviewEventGson.setAudioContributionEvent(audioContributionEventGson);
+                audioPeerReviewEventGson.setApproved(true);
+                audioContributionEventGson.setTime(Calendar.getInstance());
+
+                uploadPeerReview(audioPeerReviewEventGson);
+            });
+
+            // When the "No" button is pressed, submit the information to the server
+            peerReviewApprovedNoButton.setOnClickListener(v -> {
+                Timber.i("peerReviewApprovedNoButton onClick");
+
+                AudioPeerReviewEventGson audioPeerReviewEventGson = new AudioPeerReviewEventGson();
+                audioPeerReviewEventGson.setAudioContributionEvent(audioContributionEventGson);
+                audioPeerReviewEventGson.setApproved(false);
+                audioContributionEventGson.setTime(Calendar.getInstance());
+
+                uploadPeerReview(audioPeerReviewEventGson);
+            });
+        });
+    }
+
+    private void uploadPeerReview(AudioPeerReviewEventGson audioPeerReviewEventGson) {
+        Timber.i("uploadPeerReview");
+
+        uploadProgressBar.setVisibility(View.VISIBLE);
+        peerReviewApprovedYesButton.setVisibility(View.GONE);
+        peerReviewApprovedNoButton.setVisibility(View.GONE);
+
+        BaseApplication baseApplication = (BaseApplication) getApplication();
+        Retrofit retrofit = baseApplication.getRetrofit();
+        AudioPeerReviewsService audioPeerReviewsService = retrofit.create(AudioPeerReviewsService.class);
+        String providerIdGoogle = SharedPreferencesHelper.getProviderIdGoogle(getApplicationContext());
+        Call<ResponseBody> call = audioPeerReviewsService.uploadAudioPeerReview(providerIdGoogle, audioPeerReviewEventGson);
+        Timber.i("call.request(): " + call.request());
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Timber.i("onResponse");
+
+                Timber.i("response: " + response);
+                Timber.i("response.isSuccessful(): " + response.isSuccessful());
+                try {
+                    if (response.isSuccessful()) {
+                        String bodyString = response.body().string();
+                        Timber.i("bodyString: " + bodyString);
+
+                        // Load the next word recording to be reviewed
+                        onStart();
+                    } else {
+                        String errorBodyString = response.errorBody().string();
+                        Timber.e("errorBodyString: " + errorBodyString);
+                        Snackbar.make(uploadProgressBar, "Upload failed: " + response.code() + " " + response.message(), Snackbar.LENGTH_LONG).show();
+                        uploadProgressBar.setVisibility(View.GONE);
+                        peerReviewApprovedYesButton.setVisibility(View.VISIBLE);
+                        peerReviewApprovedNoButton.setVisibility(View.VISIBLE);
+                    }
+                } catch (IOException e) {
+                    Timber.e(e);
+                    Snackbar.make(uploadProgressBar, "An error occurred: " + e.getMessage(), Snackbar.LENGTH_LONG).show();
+                    uploadProgressBar.setVisibility(View.GONE);
+                    peerReviewApprovedYesButton.setVisibility(View.VISIBLE);
+                    peerReviewApprovedNoButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Timber.e(t, "onFailure");
+                Snackbar.make(uploadProgressBar, "An error occurred: " + t.getMessage(), Snackbar.LENGTH_LONG).show();
+                uploadProgressBar.setVisibility(View.GONE);
+                peerReviewApprovedYesButton.setVisibility(View.VISIBLE);
+                peerReviewApprovedNoButton.setVisibility(View.VISIBLE);
+            }
         });
     }
 }
