@@ -17,14 +17,14 @@
         style="?android:attr/progressBarStyleLarge" />
 
     <LinearLayout
-
+        android:visibility="gone"
         android:id="@+id/audio_peer_review_container"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@id/audio_peer_review_form_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center">
 
@@ -42,5 +42,55 @@
             android:layout_height="64dp"
             android:src="@drawable/ic_baseline_play_arrow_48"
             android:background="@drawable/shape_circle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/audio_peer_review_form_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:background="@drawable/bg_bottom_sheet_dialog_fragment"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/peer_review_audio_do_you_approve" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/wordAssessmentButtonContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/wordAssessmentEasyButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent="0.50"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:paddingVertical="@dimen/activity_vertical_margin"
+                android:text="@string/peer_review_audio_approve_no"
+                android:textColor="#f4511e" />
+
+            <Button
+                android:id="@+id/wordAssessmentDifficultButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintWidth_percent="0.50"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:paddingVertical="@dimen/activity_vertical_margin"
+                android:text="@string/peer_review_audio_approve_yes"
+                android:textColor="#009688" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

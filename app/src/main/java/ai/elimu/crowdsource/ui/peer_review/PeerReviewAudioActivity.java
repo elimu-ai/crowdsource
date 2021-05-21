@@ -1,10 +1,14 @@
 package ai.elimu.crowdsource.ui.peer_review;
 
+import android.animation.ObjectAnimator;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -37,6 +41,8 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
     private TextView wordLettersTextView;
     private ImageButton playImageButton;
 
+    private LinearLayout peerReviewFormContainerLinearLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Timber.i("onCreate");
@@ -49,6 +55,8 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
         peerReviewContainerLinearLayout = findViewById(R.id.audio_peer_review_container);
         wordLettersTextView = findViewById(R.id.audio_peer_review_word_letters);
         playImageButton = findViewById(R.id.audio_peer_review_play_button);
+
+        peerReviewFormContainerLinearLayout = findViewById(R.id.audio_peer_review_form_container);
     }
 
     @Override
@@ -57,7 +65,9 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
         super.onStart();
 
         // Reset UI state
-        // TODO
+        progressBar.setVisibility(View.VISIBLE);
+        peerReviewContainerLinearLayout.setVisibility(View.GONE);
+        peerReviewFormContainerLinearLayout.setVisibility(View.GONE);
 
         // Download a list of word recordings that the contributor has not yet peer reviewed
         BaseApplication baseApplication = (BaseApplication) getApplication();
@@ -131,10 +141,19 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
         });
         playImageButton.performClick();
 
-        // Initialize peer review form
-        // TODO
-
         progressBar.setVisibility(View.GONE);
         peerReviewContainerLinearLayout.setVisibility(View.VISIBLE);
+
+        // Initialize peer review form
+        mediaPlayer.setOnCompletionListener(mp -> {
+            peerReviewFormContainerLinearLayout.setVisibility(View.VISIBLE);
+
+            // Add animation (slide up from the bottom of the screen)
+            ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(peerReviewFormContainerLinearLayout, View.TRANSLATION_Y, 500f, 0);
+            objectAnimator.setInterpolator(new OvershootInterpolator());
+            objectAnimator.start();
+
+//            TODO: handle button clicks
+        });
     }
 }
