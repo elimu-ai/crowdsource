@@ -130,6 +130,10 @@ public class ContributeAudioActivity extends AppCompatActivity {
                     Timber.i("wordGsons.size(): " + wordGsons.size());
                     if (wordGsons.size() > 0) {
                         initializeAudioRecording(wordGsons);
+                    } else {
+                        // The contributor has no more words to record (or none were added to the website)
+                        Snackbar.make(progressBar, "You have no pending audio recordings 🎉", Snackbar.LENGTH_INDEFINITE).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
             }

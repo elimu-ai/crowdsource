@@ -76,7 +76,9 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         peerReviewContainerLinearLayout.setVisibility(View.GONE);
         peerReviewFormContainerLinearLayout.setVisibility(View.GONE);
-
+        peerReviewApprovedYesButton.setVisibility(View.VISIBLE);
+        peerReviewApprovedNoButton.setVisibility(View.VISIBLE);
+        uploadProgressBar.setVisibility(View.GONE);
 
         // Download a list of word recordings that the contributor has not yet peer reviewed
         BaseApplication baseApplication = (BaseApplication) getApplication();
@@ -99,13 +101,17 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
                     }
 
                     // Handle error
-                    Snackbar.make(progressBar, response.code() + ": " + response.message(), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(progressBar, response.code() + ": " + response.message(), Snackbar.LENGTH_INDEFINITE).show();
                     progressBar.setVisibility(View.GONE);
                 } else {
                     List<AudioContributionEventGson> audioContributionEventGsons = response.body();
                     Timber.i("audioContributionEventGsons.size(): " + audioContributionEventGsons.size());
                     if (audioContributionEventGsons.size() > 0) {
                         initializeAudioRecordingPeerReview(audioContributionEventGsons);
+                    } else {
+                        // The contributor has no more word recordings to peer review (or none were added to the website)
+                        Snackbar.make(progressBar, "You have no pending peer reviews 🎉", Snackbar.LENGTH_INDEFINITE).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
             }
@@ -115,7 +121,7 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
                 Timber.e(t, "onFailure");
 
                 // Handle error
-                Snackbar.make(progressBar, t.getMessage(), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(progressBar, t.getMessage(), Snackbar.LENGTH_INDEFINITE).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -191,9 +197,9 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
     private void uploadPeerReview(AudioPeerReviewEventGson audioPeerReviewEventGson) {
         Timber.i("uploadPeerReview");
 
-        uploadProgressBar.setVisibility(View.VISIBLE);
         peerReviewApprovedYesButton.setVisibility(View.GONE);
         peerReviewApprovedNoButton.setVisibility(View.GONE);
+        uploadProgressBar.setVisibility(View.VISIBLE);
 
         BaseApplication baseApplication = (BaseApplication) getApplication();
         Retrofit retrofit = baseApplication.getRetrofit();
@@ -219,16 +225,16 @@ public class PeerReviewAudioActivity extends AppCompatActivity {
                         String errorBodyString = response.errorBody().string();
                         Timber.e("errorBodyString: " + errorBodyString);
                         Snackbar.make(uploadProgressBar, "Upload failed: " + response.code() + " " + response.message(), Snackbar.LENGTH_LONG).show();
-                        uploadProgressBar.setVisibility(View.GONE);
                         peerReviewApprovedYesButton.setVisibility(View.VISIBLE);
                         peerReviewApprovedNoButton.setVisibility(View.VISIBLE);
+                        uploadProgressBar.setVisibility(View.GONE);
                     }
                 } catch (IOException e) {
                     Timber.e(e);
                     Snackbar.make(uploadProgressBar, "An error occurred: " + e.getMessage(), Snackbar.LENGTH_LONG).show();
-                    uploadProgressBar.setVisibility(View.GONE);
                     peerReviewApprovedYesButton.setVisibility(View.VISIBLE);
                     peerReviewApprovedNoButton.setVisibility(View.VISIBLE);
+                    uploadProgressBar.setVisibility(View.GONE);
                 }
             }
 
