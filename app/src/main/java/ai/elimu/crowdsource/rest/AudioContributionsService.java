@@ -17,9 +17,17 @@ import retrofit2.http.Part;
  */
 public interface AudioContributionsService {
 
+    /**
+     * @param providerIdGoogle The contributor's Google ID.
+     */
     @GET("crowdsource/audio-contributions/words")
     Call<List<WordGson>> listWordsPendingRecording(@Header("providerIdGoogle") String providerIdGoogle);
 
+    /**
+     * @param providerIdGoogle The contributor's Google ID.
+     * @param timeSpentMs Time spent in the app while creating the word's audio recording.
+     * @param part The recorded audio file.
+     */
     @Multipart
     @POST("crowdsource/audio-contributions/words")
     Call<ResponseBody> uploadWordRecording(@Header("providerIdGoogle") String providerIdGoogle, @Header("timeSpentMs") Long timeSpentMs, @Part MultipartBody.Part part);

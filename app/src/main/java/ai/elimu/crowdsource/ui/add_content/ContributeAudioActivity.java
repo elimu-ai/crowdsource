@@ -128,9 +128,12 @@ public class ContributeAudioActivity extends AppCompatActivity {
                 } else {
                     List<WordGson> wordGsons = response.body();
                     Timber.i("wordGsons.size(): " + wordGsons.size());
-
                     if (wordGsons.size() > 0) {
                         initializeAudioRecording(wordGsons);
+                    } else {
+                        // The contributor has no more words to record (or none were added to the website)
+                        Snackbar.make(progressBar, "You have no pending audio recordings 🎉", Snackbar.LENGTH_INDEFINITE).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
             }
@@ -149,7 +152,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
     private void initializeAudioRecording(List<WordGson> wordGsons) {
         Timber.i("initializeAudioRecording");
 
-        // Get the next word in the list
+        // Get the first word in the list
         WordGson wordGson = wordGsons.get(0);
 
         String wordLetters = "";
