@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">elimu.ai Crowdsource</string>
     <string name="contribute_audio_recordings">Contribute Audio Recordings</string>
+    <string name="contribute_word_sounds">Contribute Word Sounds</string>
     <string name="peer_review_audio_approve_no">👎 No</string>
     <string name="peer_review_audio_approve_yes">👍 Yes</string>
     <string name="peer_review_audio_do_you_approve">Do you approve the\nquality of this audio?</string>
