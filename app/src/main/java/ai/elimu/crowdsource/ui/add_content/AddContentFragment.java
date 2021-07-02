@@ -17,6 +17,8 @@ import timber.log.Timber;
 public class AddContentFragment extends Fragment {
 
     private TextView urlTextView;
+    
+    private CardView contributeWordCardView;
 
     private CardView contributeAudioCardView;
 
@@ -28,6 +30,13 @@ public class AddContentFragment extends Fragment {
         urlTextView = root.findViewById(R.id.url_text_view);
         String baseUrl = ((BaseApplication) getActivity().getApplication()).getBaseUrl();
         urlTextView.setText("Connected to: " + baseUrl);
+
+        contributeWordCardView = root.findViewById(R.id.contribute_word_card_view);
+        contributeWordCardView.setOnClickListener(v -> {
+            Timber.i("contributeWordCardView onClick");
+            Intent contributeWordActivityIntent = new Intent(getActivity().getApplicationContext(), ContributeWordActivity.class);
+            startActivity(contributeWordActivityIntent);
+        });
 
         contributeAudioCardView = root.findViewById(R.id.contribute_audio_card_view);
         contributeAudioCardView.setOnClickListener(v -> {

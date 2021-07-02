@@ -28,6 +28,10 @@
 
         <activity android:name=".ui.BottomNavigationActivity" />
 
+        <activity android:name=".ui.add_content.ContributeWordActivity"
+            android:parentActivityName=".ui.BottomNavigationActivity"
+            android:label="@string/contribute_word_sounds" />
+
         <activity android:name=".ui.add_content.ContributeAudioActivity"
             android:parentActivityName=".ui.BottomNavigationActivity"
             android:label="@string/contribute_audio_recordings" />
