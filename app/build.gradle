@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "ai.elimu.crowdsource"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1000005
         versionName "1.0.5-SNAPSHOT"
         setProperty("archivesBaseName", "${applicationId}-${versionCode}")
