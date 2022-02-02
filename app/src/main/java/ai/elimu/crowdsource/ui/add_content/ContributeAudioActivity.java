@@ -31,7 +31,7 @@ import ai.elimu.crowdsource.rest.AudioContributionsService;
 import ai.elimu.crowdsource.util.SharedPreferencesHelper;
 import ai.elimu.model.v2.gson.content.SoundGson;
 import ai.elimu.model.v2.gson.content.LetterGson;
-import ai.elimu.model.v2.gson.content.LetterToSoundMappingGson;
+import ai.elimu.model.v2.gson.content.LetterSoundCorrespondenceGson;
 import ai.elimu.model.v2.gson.content.WordGson;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -157,12 +157,12 @@ public class ContributeAudioActivity extends AppCompatActivity {
 
         String wordLetters = "";
         String wordSounds = "";
-        List<LetterToSoundMappingGson> letterToSoundMappingGsons = wordGson.getLetterToSoundMappings();
-        for (LetterToSoundMappingGson letterToSoundMappingGson : letterToSoundMappingGsons) {
-            for (LetterGson letterGson : letterToSoundMappingGson.getLetters()) {
+        List<LetterSoundCorrespondenceGson> letterSoundCorrespondenceGsons = wordGson.getLetterToSoundMappings();
+        for (LetterSoundCorrespondenceGson letterSoundCorrespondenceGson : letterSoundCorrespondenceGsons) {
+            for (LetterGson letterGson : letterSoundCorrespondenceGson.getLetters()) {
                 wordLetters += letterGson.getText();
             }
-            for (SoundGson soundGson : letterToSoundMappingGson.getSounds()) {
+            for (SoundGson soundGson : letterSoundCorrespondenceGson.getSounds()) {
                 wordSounds += soundGson.getValueIpa();
             }
         }
