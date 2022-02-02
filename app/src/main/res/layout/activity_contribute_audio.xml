@@ -39,7 +39,7 @@
         <!-- TODO: wordType -->
 
         <TextView
-            android:id="@+id/audio_contribution_word_allophones"
+            android:id="@+id/audio_contribution_word_sounds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="40sp"
