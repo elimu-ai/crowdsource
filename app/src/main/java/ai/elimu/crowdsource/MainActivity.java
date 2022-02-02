@@ -10,7 +10,7 @@ import ai.elimu.crowdsource.ui.authentication.SignInWithGoogleActivity;
 import ai.elimu.crowdsource.ui.language.SelectLanguageActivity;
 import ai.elimu.crowdsource.ui.BottomNavigationActivity;
 import ai.elimu.crowdsource.util.SharedPreferencesHelper;
-import ai.elimu.model.enums.Language;
+import ai.elimu.model.v2.enums.Language;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {

@@ -157,7 +157,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
 
         String wordLetters = "";
         String wordSounds = "";
-        List<LetterSoundCorrespondenceGson> letterSoundCorrespondenceGsons = wordGson.getLetterToSoundMappings();
+        List<LetterSoundCorrespondenceGson> letterSoundCorrespondenceGsons = wordGson.getLetterSoundCorrespondences();
         for (LetterSoundCorrespondenceGson letterSoundCorrespondenceGson : letterSoundCorrespondenceGsons) {
             for (LetterGson letterGson : letterSoundCorrespondenceGson.getLetters()) {
                 wordLetters += letterGson.getText();
