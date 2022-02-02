@@ -29,9 +29,9 @@ import ai.elimu.crowdsource.BaseApplication;
 import ai.elimu.crowdsource.R;
 import ai.elimu.crowdsource.rest.AudioContributionsService;
 import ai.elimu.crowdsource.util.SharedPreferencesHelper;
-import ai.elimu.model.v2.gson.content.AllophoneGson;
+import ai.elimu.model.v2.gson.content.SoundGson;
 import ai.elimu.model.v2.gson.content.LetterGson;
-import ai.elimu.model.v2.gson.content.LetterToAllophoneMappingGson;
+import ai.elimu.model.v2.gson.content.LetterToSoundMappingGson;
 import ai.elimu.model.v2.gson.content.WordGson;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -51,7 +51,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
 
     private LinearLayout recordingContainerLinearLayout;
     private TextView wordLettersTextView;
-    private TextView wordAllophonesTextView;
+    private TextView wordSoundsTextView;
     private ImageButton recordAudioImageButton;
     private boolean isRecording;
     private ImageButton stopAudioImageButton;
@@ -75,7 +75,7 @@ public class ContributeAudioActivity extends AppCompatActivity {
 
         recordingContainerLinearLayout = findViewById(R.id.audio_contribution_recording_container);
         wordLettersTextView = findViewById(R.id.audio_contribution_word_letters);
-        wordAllophonesTextView = findViewById(R.id.audio_contribution_word_allophones);
+        wordSoundsTextView = findViewById(R.id.audio_contribution_word_sounds);
         recordAudioImageButton = findViewById(R.id.audio_contribution_record_button);
         stopAudioImageButton = findViewById(R.id.audio_contribution_stop_button);
         playButtonContainer = findViewById(R.id.audio_contribution_play_button_container);
@@ -156,18 +156,18 @@ public class ContributeAudioActivity extends AppCompatActivity {
         WordGson wordGson = wordGsons.get(0);
 
         String wordLetters = "";
-        String wordAllophones = "";
-        List<LetterToAllophoneMappingGson> letterToAllophoneMappingGsons = wordGson.getLetterToAllophoneMappings();
-        for (LetterToAllophoneMappingGson letterToAllophoneMappingGson : letterToAllophoneMappingGsons) {
-            for (LetterGson letterGson : letterToAllophoneMappingGson.getLetters()) {
+        String wordSounds = "";
+        List<LetterToSoundMappingGson> letterToSoundMappingGsons = wordGson.getLetterToSoundMappings();
+        for (LetterToSoundMappingGson letterToSoundMappingGson : letterToSoundMappingGsons) {
+            for (LetterGson letterGson : letterToSoundMappingGson.getLetters()) {
                 wordLetters += letterGson.getText();
             }
-            for (AllophoneGson allophoneGson : letterToAllophoneMappingGson.getAllophones()) {
-                wordAllophones += allophoneGson.getValueIpa();
+            for (SoundGson soundGson : letterToSoundMappingGson.getSounds()) {
+                wordSounds += soundGson.getValueIpa();
             }
         }
         wordLettersTextView.setText(wordLetters);
-        wordAllophonesTextView.setText("/" + wordAllophones + "/");
+        wordSoundsTextView.setText("/" + wordSounds + "/");
 
         recordAudioImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
