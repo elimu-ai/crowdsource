@@ -23,8 +23,20 @@
             android:src="@drawable/ic_elimu" />
 
         <com.google.android.gms.common.SignInButton
-            android:id="@+id/sign_in_button"
+            android:id="@+id/g_sign_in_button"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/connect_web3_button"
+            android:text="Connect to web3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/sign_in_web3_button"
+            android:text="Sign in with web3"
+            android:layout_width="wrap_content"
+            android:visibility="invisible"
             android:layout_height="wrap_content" />
 
         <ProgressBar

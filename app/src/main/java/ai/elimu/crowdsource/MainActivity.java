@@ -6,7 +6,7 @@ import android.text.TextUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ai.elimu.crowdsource.ui.authentication.SignInWithGoogleActivity;
+import ai.elimu.crowdsource.ui.authentication.SignInActivity;
 import ai.elimu.crowdsource.ui.language.SelectLanguageActivity;
 import ai.elimu.crowdsource.ui.BottomNavigationActivity;
 import ai.elimu.crowdsource.util.SharedPreferencesHelper;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             Timber.i("providerIdGoogle: " + providerIdGoogle);
             if (TextUtils.isEmpty(providerIdGoogle)) {
                 // Redirect to sign-in with Google
-                Intent signInWithGoogleIntent = new Intent(getApplicationContext(), SignInWithGoogleActivity.class);
+                Intent signInWithGoogleIntent = new Intent(getApplicationContext(), SignInActivity.class);
                 startActivity(signInWithGoogleIntent);
                 finish();
             } else {
