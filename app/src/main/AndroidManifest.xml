@@ -27,7 +27,9 @@
 
         <activity android:name=".ui.language.SelectLanguageActivity" />
 
-        <activity android:name=".ui.authentication.SignInActivity" />
+        <activity android:name=".ui.authentication.SignInWithWeb3Activity" />
+
+        <activity android:name=".ui.authentication.SignInWithGoogleActivity" />
 
         <activity android:name=".ui.BottomNavigationActivity" />
 

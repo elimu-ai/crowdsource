@@ -65,7 +65,7 @@ class BridgeServer(moshi: Moshi) : WebSocketServer(InetSocketAddress(PORT)) {
                         }
                     }
                     "ack" -> {
-
+                        pubsCache.remove(topic);
                     }
                     else -> error("Unknown type")
                 }
