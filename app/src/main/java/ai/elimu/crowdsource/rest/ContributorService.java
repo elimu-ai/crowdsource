@@ -7,10 +7,13 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 /**
- * REST API: https://github.com/elimu-ai/webapp/blob/master/src/main/java/ai/elimu/rest/v2/crowdsource/ContributorsRestController.java
+ * REST API: https://github.com/elimu-ai/webapp/blob/main/src/main/java/ai/elimu/rest/v2/crowdsource/
  */
 public interface ContributorService {
 
     @POST("crowdsource/contributors")
-    Call<ResponseBody> createContributor(@Body RequestBody requestBody);
+    Call<ResponseBody> createContributorGoogle(@Body RequestBody requestBody);
+
+    @POST("crowdsource/contributors/web3")
+    Call<ResponseBody> createContributorWeb3(@Body RequestBody requestBody);
 }
