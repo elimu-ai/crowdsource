@@ -11,15 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.tasks.Task;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.walletconnect.Session;
@@ -29,7 +20,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import ai.elimu.crowdsource.BaseApplication;
-import ai.elimu.crowdsource.BuildConfig;
 import ai.elimu.crowdsource.MainActivity;
 import ai.elimu.crowdsource.R;
 import ai.elimu.crowdsource.rest.ContributorService;
@@ -51,9 +41,8 @@ import timber.log.Timber;
  */
 public class SignInWithWeb3Activity extends AppCompatActivity implements Session.Callback {
 
-    private static String w3Account = "";
     public static final String W3_SIGN_MESSAGE = "elimu.ai";
-
+    private static String w3Account = "";
     private Button connectW3Button;
 
     private ProgressBar signInProgressBar;
@@ -131,7 +120,7 @@ public class SignInWithWeb3Activity extends AppCompatActivity implements Session
         // Web3 Sign In button.
         initialSetup();
 
-        if (!w3Account.equals("")){
+        if (!w3Account.equals("")) {
             updateUIW3(w3Account);
         }
 
@@ -163,7 +152,7 @@ public class SignInWithWeb3Activity extends AppCompatActivity implements Session
         } catch (JSONException e) {
             Timber.e(e);
         }
-        Timber.i("contributorJSONObject: " + contributorJSONObject);
+        Timber.i("contributorJSONObject: %s", contributorJSONObject);
 
         // Register the Contributor in the webapp's database
         BaseApplication baseApplication = (BaseApplication) getApplication();
@@ -171,7 +160,7 @@ public class SignInWithWeb3Activity extends AppCompatActivity implements Session
         ContributorService contributorService = retrofit.create(ContributorService.class);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), contributorJSONObject.toString());
         Call<ResponseBody> call = contributorService.createContributor(requestBody);
-        Timber.i("call.request(): " + call.request());
+        Timber.i("call.request(): %s", call.request());
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(new Runnable() {
             @Override
@@ -180,11 +169,11 @@ public class SignInWithWeb3Activity extends AppCompatActivity implements Session
 
                 try {
                     Response<ResponseBody> response = call.execute();
-                    Timber.i("response: " + response);
-                    Timber.i("response.isSuccessful(): " + response.isSuccessful());
+                    Timber.i("response: %s", response);
+                    Timber.i("response.isSuccessful(): %s", response.isSuccessful());
                     if (response.isSuccessful()) {
                         String bodyString = response.body().string();
-                        Timber.i("bodyString: " + bodyString);
+                        Timber.i("bodyString: %s", bodyString);
 
                         // Persist the Contributor's account details in SharedPreferences
                         SharedPreferencesHelper.storeWeb3Account(getApplicationContext(), web3Account);
@@ -195,7 +184,7 @@ public class SignInWithWeb3Activity extends AppCompatActivity implements Session
                         finish();
                     } else {
                         String errorBodyString = response.errorBody().string();
-                        Timber.e("errorBodyString: " + errorBodyString);
+                        Timber.e("errorBodyString: %s", errorBodyString);
                         // TODO: Handle error
 
                         runOnUiThread(() -> {
@@ -208,7 +197,7 @@ public class SignInWithWeb3Activity extends AppCompatActivity implements Session
                         });
                     }
                 } catch (IOException e) {
-                    Timber.e(e, null);
+                    Timber.e(e);
                     // TODO: Handle error
 
                     runOnUiThread(() -> {
