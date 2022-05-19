@@ -19,7 +19,7 @@ Compile APK:
 Install APK:
 
 ```
-adb install app/build/outputs/apk/debug/ai.elimu.vitabu-<versionCode>-debug.apk
+adb install app/build/outputs/apk/debug/ai.elimu.crowdsource-<versionCode>-debug.apk
 ```
 
 ---
