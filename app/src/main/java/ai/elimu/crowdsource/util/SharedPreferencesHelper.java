@@ -14,6 +14,7 @@ public class SharedPreferencesHelper {
     public static final String PREF_APP_VERSION_CODE = "pref_app_version_code";
     public static final String PREF_LANGUAGE = "pref_language";
     public static final String PREF_PROVIDER_ID_GOOGLE = "pref_provider_id_google";
+    public static final String PREF_PROVIDER_ID_WEB3 = "pref_provider_id_web3";
     public static final String PREF_EMAIL = "pref_email";
     public static final String PREF_FIRSTNAME = "pref_firstname";
     public static final String PREF_LASTNAME = "pref_lastname";
@@ -72,6 +73,24 @@ public class SharedPreferencesHelper {
             return null;
         } else {
             return providerIdGoogle;
+        }
+    }
+
+
+    public static void storeProviderIdWeb3(Context context, String providerIdWeb3) {
+        Timber.i("storeProviderIdWeb3");
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(PREF_PROVIDER_ID_WEB3, providerIdWeb3).apply();
+    }
+
+    public static String getProviderIdWeb3(Context context) {
+        Timber.i("getProviderIdWeb3");
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        String providerIdWeb3 = sharedPreferences.getString(PREF_PROVIDER_ID_WEB3, null);
+        if (TextUtils.isEmpty(providerIdWeb3)) {
+            return null;
+        } else {
+            return providerIdWeb3;
         }
     }
 
