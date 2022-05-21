@@ -1,53 +1,50 @@
 package ai.elimu.crowdsource.util;
 
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-
 import org.web3j.crypto.ECDSASignature;
 import org.web3j.crypto.Hash;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.Sign;
 import org.web3j.crypto.Sign.SignatureData;
-import org.web3j.crypto.WalletFile;
 import org.web3j.utils.Numeric;
+
+import java.math.BigInteger;
+import java.util.Arrays;
 
 import timber.log.Timber;
 
 public class EthersUtils {
     private static final String MESSAGE_PREFIX = "\u0019Ethereum Signed Message:\n";
 
-    public static boolean verifyMessage(String address,String message, String signature) {
+    public static boolean verifyMessage(String address, String message, String signature) {
         String recovered = EthersUtils.recoverAddress(EthersUtils.hashMessage(message), signature);
         Timber.tag("ethers-utils").i("recovered address: %s", recovered);
         return address.equalsIgnoreCase(recovered);
     }
 
-    public static String hashMessage(String message) {
-        return Hash.sha3(
-                Numeric.toHexStringNoPrefix(
-                        (EthersUtils.MESSAGE_PREFIX + message.length() + message).getBytes(StandardCharsets.UTF_8)));
+    public static byte[] hashMessage(String message) {
+        // Note: The label prefix is part of the standard
+        String label = "\u0019Ethereum Signed Message:\n" + String.valueOf(message.getBytes().length) + message;
+        // Get message hash using SHA-3
+        return Hash.sha3((label).getBytes());
     }
 
-    public static String recoverAddress(String digest, String signature) {
-        SignatureData signatureData = EthersUtils.getSignatureData(signature);
-        int header = 0;
-        for (byte b : signatureData.getV()) {
-            header = (header << 8) + (b & 0xFF);
+    public static String recoverAddress(byte[] digest, String signature) {
+        SignatureData sd = EthersUtils.getSignatureData(signature);
+        for (int i = 0; i < 4; i++) {
+            final BigInteger publicKey = Sign.recoverFromSignature(
+                    (byte) i,
+                    new ECDSASignature(
+                            new BigInteger(1, sd.getR()),
+                            new BigInteger(1, sd.getS())
+                    ),
+                    digest
+            );
+
+            if (publicKey != null) {
+                return  "0x" + Keys.getAddress(publicKey);
+            }
         }
-        if (header < 27 || header > 34) {
-            return null;
-        }
-        int recId = header - 27;
-        BigInteger key = Sign.recoverFromSignature(
-                recId,
-                new ECDSASignature(
-                        new BigInteger(1, signatureData.getR()), new BigInteger(1, signatureData.getS())),
-                Numeric.hexStringToByteArray(digest));
-        if (key == null) {
-            return null;
-        }
-        return ("0x" + Keys.getAddress(key)).trim();
+        return null;
     }
 
     private static SignatureData getSignatureData(String signature) {

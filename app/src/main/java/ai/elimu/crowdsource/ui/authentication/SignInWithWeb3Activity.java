@@ -41,8 +41,9 @@ import timber.log.Timber;
  */
 public class SignInWithWeb3Activity extends AppCompatActivity implements Session.Callback {
 
-    public static final String W3_SIGN_MESSAGE = "elimu.ai";
-    private static String w3Account = "";
+    public static final String W3_SIGN_MESSAGE = "I verify ownership of this account 👍";
+    private static String providerIdWeb3 = "";
+    private static String provideIdWeb3Signature = "";
     private Button connectW3Button;
 
     private ProgressBar signInProgressBar;
@@ -99,7 +100,8 @@ public class SignInWithWeb3Activity extends AppCompatActivity implements Session
                                 recovered = EthersUtils.verifyMessage(from, W3_SIGN_MESSAGE, response.getResult().toString());
                                 Timber.tag("web3.wallet").i("recovered address: %s", recovered);
                                 if (recovered) {
-                                    w3Account = from;
+                                    provideIdWeb3Signature = response.getResult().toString();
+                                    providerIdWeb3 = from;
                                 }
                             }
                         }
@@ -120,23 +122,16 @@ public class SignInWithWeb3Activity extends AppCompatActivity implements Session
         // Web3 Sign In button.
         initialSetup();
 
-        if (!w3Account.equals("")) {
-            updateUIW3(w3Account);
+        if (!providerIdWeb3.equals("")) {
+            updateUI();
         }
 
 
     }
 
-    private void updateUIW3(String web3Account) {
+    private void updateUI() {
         Timber.i("updateUI");
 
-
-        // Get the details from the Contributor's Google account
-        String providerIdGoogle = "";
-        String email = "";
-        String firstName = web3Account;
-        String lastName = "";
-        String imageUrl = "";
 
         // Display the progressbar while connecting to the webapp
         signInW3Button.setVisibility(View.GONE);
@@ -146,9 +141,8 @@ public class SignInWithWeb3Activity extends AppCompatActivity implements Session
         // Prepare JSON object to be sent to the webapp's REST API
         JSONObject contributorJSONObject = new JSONObject();
         try {
-            contributorJSONObject.put("providerIdWeb3", web3Account);
-            contributorJSONObject.put("providerIdGoogle", web3Account);
-            contributorJSONObject.put("email", web3Account);
+            contributorJSONObject.put("providerIdWeb3", providerIdWeb3);
+            contributorJSONObject.put("providerIdWeb3Signature", provideIdWeb3Signature);
         } catch (JSONException e) {
             Timber.e(e);
         }
@@ -159,7 +153,7 @@ public class SignInWithWeb3Activity extends AppCompatActivity implements Session
         Retrofit retrofit = baseApplication.getRetrofit();
         ContributorService contributorService = retrofit.create(ContributorService.class);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), contributorJSONObject.toString());
-        Call<ResponseBody> call = contributorService.createContributor(requestBody);
+        Call<ResponseBody> call = contributorService.createContributorWeb3(requestBody);
         Timber.i("call.request(): %s", call.request());
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(new Runnable() {
@@ -176,7 +170,7 @@ public class SignInWithWeb3Activity extends AppCompatActivity implements Session
                         Timber.i("bodyString: %s", bodyString);
 
                         // Persist the Contributor's account details in SharedPreferences
-                        SharedPreferencesHelper.storeWeb3Account(getApplicationContext(), web3Account);
+                        SharedPreferencesHelper.storeProviderIdWeb3(getApplicationContext(), provideIdWeb3Signature);
 
                         // Redirect to the MainActivity
                         Intent mainActivityIntent = new Intent(getApplicationContext(), MainActivity.class);
@@ -194,6 +188,8 @@ public class SignInWithWeb3Activity extends AppCompatActivity implements Session
                             signInW3Button.setVisibility(View.VISIBLE);
                             connectW3Button.setVisibility(View.VISIBLE);
                             signInProgressBar.setVisibility(View.GONE);
+                            providerIdWeb3 = "";
+                            provideIdWeb3Signature = "";
                         });
                     }
                 } catch (IOException e) {
@@ -207,6 +203,8 @@ public class SignInWithWeb3Activity extends AppCompatActivity implements Session
                         signInW3Button.setVisibility(View.VISIBLE);
                         connectW3Button.setVisibility(View.VISIBLE);
                         signInProgressBar.setVisibility(View.GONE);
+                        providerIdWeb3 = "";
+                        provideIdWeb3Signature = "";
                     });
                 }
             }

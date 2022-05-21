@@ -77,24 +77,6 @@ public class SharedPreferencesHelper {
         }
     }
 
-    public static void storeWeb3Account(Context context, String web3Account) {
-        Timber.i("storeWeb3Account");
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString(PREF_WEB3_ACCOUNT, web3Account).apply();
-    }
-
-    public static String getWeb3Account(Context context) {
-        Timber.i("getWeb3Account");
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
-        String web3Account = sharedPreferences.getString(PREF_WEB3_ACCOUNT, null);
-        if (TextUtils.isEmpty(web3Account)) {
-            return null;
-        } else {
-            return web3Account;
-        }
-    }
-
-
     public static void storeProviderIdWeb3(Context context, String providerIdWeb3) {
         Timber.i("storeProviderIdWeb3");
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);

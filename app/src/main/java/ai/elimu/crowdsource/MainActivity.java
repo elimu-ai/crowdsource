@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // Check for an existing signed-in Contributor
             String providerIdGoogle = SharedPreferencesHelper.getProviderIdGoogle(getApplicationContext());
-            String web3Account = SharedPreferencesHelper.getWeb3Account(getApplicationContext());
+            String web3Account = SharedPreferencesHelper.getProviderIdWeb3(getApplicationContext());
             Timber.i("providerIdGoogle: " + providerIdGoogle);
             Timber.i("web3 account: " + web3Account);
             if (!TextUtils.isEmpty(providerIdGoogle) || !TextUtils.isEmpty(web3Account)) {

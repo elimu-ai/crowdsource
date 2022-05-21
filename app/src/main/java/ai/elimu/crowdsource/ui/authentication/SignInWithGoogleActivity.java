@@ -168,7 +168,7 @@ public class SignInWithGoogleActivity extends AppCompatActivity implements View.
             Retrofit retrofit = baseApplication.getRetrofit();
             ContributorService contributorService = retrofit.create(ContributorService.class);
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), contributorJSONObject.toString());
-            Call<ResponseBody> call = contributorService.createContributor(requestBody);
+            Call<ResponseBody> call = contributorService.createContributorGoogle(requestBody);
             Timber.i("call.request(): " + call.request());
             ExecutorService executorService = Executors.newSingleThreadExecutor();
             executorService.execute(new Runnable() {
