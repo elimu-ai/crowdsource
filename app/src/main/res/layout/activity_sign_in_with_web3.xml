@@ -16,19 +16,29 @@
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
-
+        <ImageView
+            android:id="@+id/logo_imageview"
+            android:layout_width="320dp"
+            android:layout_height="280dp"
+            android:src="@drawable/ic_elimu" />
 
         <Button
-            android:id="@+id/g_sign_in"
-            android:text="Sign In with Google"
+            android:id="@+id/connect_web3_button"
+            android:text="Connect to web3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <Button
-            android:id="@+id/w3_sign_in"
+            android:id="@+id/sign_in_web3_button"
             android:text="Sign in with web3"
             android:layout_width="wrap_content"
+            android:visibility="invisible"
             android:layout_height="wrap_content" />
 
+        <ProgressBar
+            android:id="@+id/sign_in_progressbar"
+            android:visibility="gone"
+            android:indeterminate="true"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
