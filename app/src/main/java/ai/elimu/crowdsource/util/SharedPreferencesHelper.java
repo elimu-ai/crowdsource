@@ -65,6 +65,7 @@ public class SharedPreferencesHelper {
         sharedPreferences.edit().putString(PREF_PROVIDER_ID_GOOGLE, providerIdGoogle).apply();
     }
 
+
     public static String getProviderIdGoogle(Context context) {
         Timber.i("getProviderIdGoogle");
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
@@ -75,7 +76,6 @@ public class SharedPreferencesHelper {
             return providerIdGoogle;
         }
     }
-
 
     public static void storeProviderIdWeb3(Context context, String providerIdWeb3) {
         Timber.i("storeProviderIdWeb3");

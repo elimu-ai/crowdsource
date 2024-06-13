@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 32
@@ -35,6 +36,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+
+//    lintOptions {
+//        disable 'LogNotTimber', 'StringFormatInTimber', 'ThrowableNotAtBeginning', 'BinaryOperationInTimber', 'TimberArgCount', 'TimberArgTypes', 'TimberTagLength', 'TimberExceptionLogging'
+//    }
 }
 
 dependencies {
@@ -58,9 +63,23 @@ dependencies {
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.13.0'
 
     testImplementation 'junit:junit:4.13.2'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // Web3
+    implementation 'com.github.mobilekosmos:kotlin-walletconnect-lib:0.9.9.8'
+    implementation 'org.java-websocket:Java-WebSocket:1.5.3'
+    implementation ('org.web3j:core:4.8.7-android'){
+        exclude group: 'org.bouncycastle', module: '*'
+    }
+
+    //1.5.0 is currently the latest stable version of AndroidX Core for Kotlin.
+    //If you already have "androidx.core:core" implemented, remove it.
+    implementation 'androidx.core:core-ktx:1.5.+'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.+'
 }
+
